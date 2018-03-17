@@ -20,8 +20,10 @@
 					<th>DNI</th>
 					<th>NOMBRE</th>
 					<th>DESCRIPCION</th>
-					<th>PESO</th>
+					<th>PESO NETO</th>
 					<th>TAZACION</th>
+					<th>INTERES</th>
+					<th>TOTAL</th>
 					<th>ESTATUS</th>
 					<th>OPCIONES</th>
 				</thead>
@@ -32,8 +34,10 @@
 					<td>{{ $cat->dni}}</td>
 					<td>{{ $cat->nombre}}</td>
 					<td>{{ $cat->descripcion}}</td>
-					<td>{{ $cat->peso}}</td>
+					<td>{{ $cat->peso_neto}}</td>
 					<td>{{ $cat->tazacion}}</td>
+					<td>{{ $cat->interes}}</td>
+					<td>{{ $cat->total}}</td>
 					<td>{{ $cat->estatus}}</td>
 					<td>
                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">

@@ -25,7 +25,7 @@ class OroFormRequest extends Request
     {
         return [
             
-            'codigo'=>'required|unique:contrato|max:20',
+            'codigo'=>'required|unique:oro|max:20',
             'dni'=>'required|max:500',
             'nombre'=>'required|max:900',
             'tienda'=>'required|max:500',
@@ -34,15 +34,15 @@ class OroFormRequest extends Request
             'fecha_final'=>'required|max:50',
             'estatus'=>'max:500',
             'descripcion'=>'required|max:500',
-            'peso'=>'required|max:500',
-            'tipo'=>'required|max:500',
+            'peso_neto'=>'required|max:500',
+            'peso_bruto'=>'required|max:500',
             'tazacion'=>'required|max:50',
             'obsv'=>'max:500',
             'cover'=>'max:500',
             'interes'=>'required|max:500',
-            'mora'=>'required|max:500',
-            'subtotal'=>'required|max:500',
-            'total'=>'required|max:500',
+            'mora'=>'max:500',
+            'porcentaje_calculo'=>'required|max:500',
+            'monto_calculo'=>'required|max:500',
         ];
     }
 }

@@ -29,4 +29,5 @@ class oro extends Model
     ];
 
     protected $guarded =[
+ ];   
 }
