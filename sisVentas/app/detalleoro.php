@@ -18,16 +18,18 @@ class detalleoro extends Model
 
             
             'descripcion',
-            'peso',
-            'tipo',
-            'tazacion',
             'obsv',
             'cover',
+            'peso_bruto',
+            'peso_neto',
+            'tazacion',
+            'monto_calculo',
+            'porcentaje_calculo',
             'interes',
             'mora',
-            'subtotal',
-            'total',
+ ];
 
+    protected $guarded =[
 
     ];
 }

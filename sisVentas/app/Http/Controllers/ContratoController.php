@@ -117,7 +117,7 @@ catch (Exception $e) {
   DB::rollback();
            
     }
-    return Redirect::to('contrato/nuevo');
+    return Redirect::to('contrato/oro');
 }
 
      public function show($id)

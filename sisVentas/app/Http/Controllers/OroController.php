@@ -26,7 +26,7 @@ class OroController extends Controller
             $query=trim($request->get('searchText'));
             $oro=DB::table('oro as o')
             ->join('detalle_oro as do','do.codigo','=','o.codigo')
-            ->select('o.codigo','o.nombre','do.descripcion','do.tazacion','do.estatus','do.id','o.dni','do.peso')
+            ->select('o.codigo','o.nombre','do.descripcion','do.tazacion','o.estatus','o.id','o.dni','do.peso_neto','do.interes','do.total')
             ->where('o.codigo','LIKE','%'.$query.'%')
             ->orderBy('o.id','decs')
             ->paginate(5);
@@ -46,60 +46,59 @@ class OroController extends Controller
         $tienda=DB::table('tienda as ti')
         ->select('ti.nombre')
         ->get();
-        return view("contrato.nuevo.create",["categoria"=>$categoria, "now"=>$now, "tienda"=>$tienda, "contrato"=>$contrato, "persona"=>$persona]);
+        return view("contrato.oro.create",["categoria"=>$categoria, "now"=>$now, "tienda"=>$tienda, "contrato"=>$contrato, "persona"=>$persona]);
 
     }
 
- public function store (ContratoFormRequest $request)
+ public function store (OroFormRequest $request)
     {
  
 try {
     
     DB::beginTransaction();
 
-         $contrato= new contrato;
-        $contrato->codigo=$request->get('codigo');
-        $contrato->dni=$request->get('dni');
-        $contrato->nombre=$request->get('nombre');
-        $contrato->tienda=$request->get('tienda');
-        $contrato->fecha_inicio=$request->get('fecha_inicio');
-        $contrato->fecha_mes=$request->get('fecha_mes');
-        $contrato->fecha_final=$request->get('fecha_final');
-        $contrato->categoria=$request->get('categoria');
-        $contrato->estatus='Activo';
-        $contrato->cantida='2';
-        $contrato->save();
+         $oro= new oro;
+        $oro->codigo=$request->get('codigo');
+        $oro->dni=$request->get('dni');
+        $oro->nombre=$request->get('nombre');
+        $oro->tienda=$request->get('tienda');
+        $oro->fecha_inicio=$request->get('fecha_inicio');
+        $oro->fecha_mes=$request->get('fecha_mes');
+        $oro->fecha_final=$request->get('fecha_final');
+        $oro->estatus='Activo';
+        $oro->save();
 
         $descripcion=$request->get('descripcion');
-        $marca=$request->get('marca');
-        $modelo=$request->get('modelo');
-        $serial=$request->get('serial');
-        $tazacion=$request->get('tazacion');
         $obsv=$request->get('obsv');
         $cover=$request->get('cover');
         $interes=$request->get('interes');
-        $mora='0';
-        $subtotal=$request->get('subtotal');
+        $tazacion=$request->get('tazacion');
+        $peso_neto=$request->get('peso_neto');
+        $peso_bruto=$request->get('peso_bruto');
+        $monto_calculo=$request->get('monto_calculo');
+        $porcentaje_calculo=$request->get('porcentaje_calculo');
         $total=$request->get('total');
+        $mora='0';
 
-        $cont=0;
-        while ( $cont <= 0 ){
+        $mora='0';
 
-        $detalle= new detalleContrato();
-        $detalle->codigo=$contrato->codigo;
-        $detalle->descripcion=$descripcion[$cont];
-        $detalle->marca=$marca[$cont];
-        $detalle->modelo=$modelo[$cont];
-        $detalle->serial=$serial[$cont];
-        $detalle->tazacion=$tazacion[$cont];
-        $detalle->obsv=$obsv[$cont];
-        $detalle->cover=$cover[$cont];
-        $detalle->interes=$interes[$cont];
-        $detalle->interes=$interes[$cont];
-        $detalle->subtotal=$subtotal[$cont];
-        $detalle->total=$total[$cont];
+        $contc=0;
+        while ( $contc <= 0 ){
+
+        $detalle= new detalleoro();
+        $detalle->codigo=$oro->codigo;
+        $detalle->descripcion=$descripcion[$contc];
+        $detalle->obsv=$obsv[$contc];
+        $detalle->cover=$cover[$contc];
+        $detalle->interes=$interes[$contc];
+        $detalle->tazacion=$tazacion[$contc];
+        $detalle->peso_neto=$peso_neto[$contc];
+        $detalle->peso_bruto=$peso_bruto[$contc];
+        $detalle->monto_calculo=$monto_calculo[$contc];
+        $detalle->porcentaje_calculo=$porcentaje_calculo[$contc];
+        $detalle->total=$total[$contc];
         $detalle->save();
-         $cont=$cont+1;
+         $contc=$contc+1;
 
 
 }
@@ -114,7 +113,7 @@ catch (Exception $e) {
   DB::rollback();
            
     }
-    return Redirect::to('contrato/nuevo');
+    return Redirect::to('contrato/oro');
 }
 
      public function show($id)

@@ -17,13 +17,15 @@ class CreateDetalleOroTable extends Migration
             $table->integer('codigo');
             $table->string('descripcion');
             $table->string('obsv');
-            $table->string('peso');
             $table->string('cover');
             $table->string('tazacion');
-            $table->decimal('interes');
+            $table->float('interes');
             $table->decimal('mora');
-            $table->decimal('subtotal');
-            $table->decimal('total');
+            $table->decimal('peso_neto');
+            $table->decimal('peso_bruto');
+            $table->decimal('monto_calculo');
+            $table->decimal('porcentaje_calculo');
+            $table->float('total');
             $table->timestamps();
 
         });
