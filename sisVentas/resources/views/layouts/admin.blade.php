@@ -27,7 +27,7 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="/home" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>PRES</b>V</span>
           <!-- logo for regular state and mobile devices -->
@@ -80,7 +80,11 @@
                     
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="header"></li>
+            <li>
+              <a href="/home">
+                <i class="fa fa-info-circle"></i> <span>INICIO</span>
+              </a>
+            </li>
             
             <li class="treeview">
               <a href="#">
@@ -91,14 +95,14 @@
               <ul class="treeview-menu">
                 <li class="treeview">
               <a href="#">
-                <i class="fa fa-th"></i>
+                <i class="fa fa-plus-square"></i>
                 <span>Articulos</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/almacen/articulos"><i class="fa fa-circle-o"></i> Electrodomesticos</a></li>
-                <li><a href="/almacen/oro"><i class="fa fa-circle-o"></i>Oro</a></li>
-                <li><a href="/almacen/carros"><i class="fa fa-circle-o"></i>Carros</a></li>
+                <li><a href="/almacen/articulos"><i class=""></i> Electrodomesticos</a></li>
+                <li><a href="/almacen/oro"><i class=""></i>Oro</a></li>
+                <li><a href="/almacen/carros"><i class=""></i>Carros</a></li>
                 
               </ul>
             </li>
@@ -109,6 +113,7 @@
                 
               </ul>
             </li>
+
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
@@ -219,7 +224,6 @@
        <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        
         <!-- Main content -->
         <section class="content">
           
@@ -227,16 +231,10 @@
             <div class="col-md-12">
               <div class="box">
                 <div class="box-header with-border">
-                  <h3 class="box-title">SISTEMAS DE PRESTAMOS</h3>
-            
-		                          <!--Contenido-->
-                              @yield('contenido')
-		                          <!--Fin Contenido-->
-                           </div>
-                        </div>
-		                    
-                  		</div>
-                  	</div><!-- /.row -->
+                    <!--<h3 class="box-title">SISTEMAS DE PRESTAMOS</h3>-->
+                    <!--Contenido-->
+                    @yield('contenido')
+                    <!--Fin Contenido-->
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
             </div><!-- /.col -->
@@ -244,12 +242,14 @@
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
+
       <!--Fin-Contenido-->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.1.0
         </div>
-        <strong>Prestocash &copy; 2011-2018 <a href="www.prestocash.com.pe">Prestocash</a>.</strong> Derechos Reservados.
+        <strong>Prestocash &copy; 2011-2018 <a href="www.prestocash.com.pe">Prestocash</a>.</strong> 
+        Derechos Reservados.
       </footer>
 
       
