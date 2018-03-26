@@ -32,7 +32,7 @@
 					<td>{{ $cat->categoria}}</td>
 					
 					<td>
-						<a href="{{URL::action('PersonaControllers@edit',$cat->id)}}"><button class="btn btn-info">Editar</button></a>
+						<a href="{{ route("almacen.persona", $cat->id) }}"><button class="btn btn-info">Editar</button></a>
 						
                          <a href="" data-target="#modal-delete-{{$cat->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
 					</div>

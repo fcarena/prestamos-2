@@ -4,9 +4,9 @@ namespace sisVentas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tienda extends Model
+class Tiendas extends Model
 {
-    protected $table='tienda';
+    protected $table='tiendas';
 
     protected $primaryKey='id';
 
@@ -14,14 +14,9 @@ class tienda extends Model
 
 
     protected $fillable =[
-    	
-			
-            'idtienda',
             'nombre',
             'letrae',
             'letrao',
-            
-
     ];
 
     protected $guarded =[

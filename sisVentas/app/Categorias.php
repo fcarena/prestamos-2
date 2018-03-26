@@ -4,9 +4,9 @@ namespace sisVentas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class Categorias extends Model
 {
-    protected $table='categoria';
+    protected $table='categorias';
 
     protected $primaryKey='id';
 

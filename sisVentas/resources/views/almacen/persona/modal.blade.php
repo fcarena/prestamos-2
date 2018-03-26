@@ -1,6 +1,5 @@
 <div class="modal fade modal-slide-in-right" aria-hidden="true"
 role="dialog" tabindex="-1" id="modal-delete-{{$cat->id}}">
-	{{Form::Open(array('action'=>array('PersonaControllers@destroy',$cat->id),'method'=>'delete'))}}
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -11,7 +10,7 @@ role="dialog" tabindex="-1" id="modal-delete-{{$cat->id}}">
                 <h4 class="modal-title">Eliminar Cliente</h4>
 			</div>
 			<div class="modal-body">
-				<p>SOLO EL ADMINISTRADOR PUEDE ELIMAR</p>
+				<p>SOLO EL ADMINISTRADOR PUEDE ELIMIMAR</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -19,6 +18,5 @@ role="dialog" tabindex="-1" id="modal-delete-{{$cat->id}}">
 			</div>
 		</div>
 	</div>
-	{{Form::Close()}}
 
 </div>

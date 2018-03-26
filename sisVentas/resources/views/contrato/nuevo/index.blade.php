@@ -1,12 +1,15 @@
 @extends ('layouts.admin')
 @section ('contenido')
-<div  class="box box-info">
+
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>LISTADO DE CONTRATO DE ELECTRO Y HERRAMIENTAS</h3>
-		@include('contrato.nuevo.search')
-		<a href="nuevo/create"><button class="btn btn-success">Nuevo</button></a>
+		<h3>CONTRATOS DE ELECTRO Y HERRAMIENTAS </h3>
 	</div>
+	
+	@include('contrato.nuevo.search')
+	
+	<div class="col-lg-1 col-md-1 col-sm-1 pull-right">
+		<a href="contrato/nuevo"><button class="btn btn-success">Nuevo</button></a>
 	</div>
 </div>
 
@@ -38,7 +41,7 @@
                      	<a  ><button class="btn btn-info">Ver</button></a>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                     	<a href="/detalles/renovacion" ><button class="btn btn-warning">Renovar</button></a>
+                     	<a href="{{ route("contrato/renovacion/", $cat->id) }}" ><button class="btn btn-warning">Renovar</button></a>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                      	<a  href="/detalles/nuevo"><button class="btn btn-danger">Cancelar</button></a>
@@ -49,7 +52,7 @@
 				@endforeach
 			</table>
 		</div>
-		{{$contrato->render()}}
+		{{ $contrato->render() }}
 	</div>
 </div>
 

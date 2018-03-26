@@ -17,19 +17,39 @@ Route::get('/', function () {
 
 Route::resource('almacen/categoria','CategoriaController');
 Route::resource('consultas/categorias','CategoriaController@indexx');
-Route::resource('almacen/persona','PersonaControllers');
+
+Route::get('almacen/persona','PersonaControllers@index');
+Route::get('almacen/persona/create','PersonaControllers@create');
+Route::post('almacen/persona','PersonaControllers@store');
+Route::get('almacen/persona/{id}','PersonaControllers@edit')->name('almacen.persona');
+Route::post	('almacen/persona/{id}','PersonaControllers@update')->name('almacen.persona');
+//Route::post('almacen/persona','PersonaControllers@destroy');
 Route::resource('consultas/personas','PersonaControllers@indexx');
+
 Route::resource('seguridad/usuario','UsuarioController');
+
 Route::resource('almacen/articulos','ArticulosController');
 Route::resource('consultas/articulos','ArticulosController@indexx');
+
 Route::resource('almacen/tienda','TiendaController');
 Route::resource('consultas/tiendas','TiendaController@indexx');
-Route::resource('contrato/nuevo','ContratoController');
+
+Route::get('contrato','ContratoController@index');
+Route::get('contrato/nuevo','ContratoController@create');
+Route::post('contrato/nuevo','ContratoController@store');
+Route::get('contrato/renovacion/{id}','RenovacionController@edit')->name('contrato/renovacion/');
+Route::post('contrato/renovacion','RenovacionController@store')->name('contrato.renovacion');
+
+
+
 Route::resource('contrato/oro','OroController');
 Route::resource('contrato/carro','CarroController');
+
+
+
 Route::resource('reportes/tiendas','PDFTiendaController');
 Route::resource('detalles/nuevo','DetalleContratoController');
-Route::resource('detalles/renovacion','RenovacionController');
+
 
 
 

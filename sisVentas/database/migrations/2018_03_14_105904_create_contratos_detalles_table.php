@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDetalleContratoTable extends Migration
+class CreateContratosDetallesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,20 @@ class CreateDetalleContratoTable extends Migration
      */
     public function up()
     {
-        Schema::create('detalle_contrato', function (Blueprint $table) {
+        Schema::create('contratos_detalles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('codigo');
+            
+            $table->integer('contratos_codigo');
+            $table->foreign('contratos_codigo')->references('codigo')->on('contratos');
+            
             $table->string('descripcion');
             $table->string('marca');
             $table->string('modelo');
             $table->string('serial');
             $table->string('obsv');
             $table->string('cover');
-            $table->string('tazacion');
+            $table->decimal('tazacion');
             $table->decimal('interes');
-            $table->decimal('mora');
             $table->decimal('subtotal');
             $table->decimal('total');
             $table->timestamps();
@@ -37,6 +39,6 @@ class CreateDetalleContratoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('detalle_contrato');
+        Schema::drop('contratos_detalles');
     }
 }

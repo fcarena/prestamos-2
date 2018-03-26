@@ -29,7 +29,7 @@
 					<th>Vitrina</th>
 					<th>Opciones</th>
 				</thead>
-               @foreach ($articulo as $cat)
+				@foreach ($articulo as $cat)
 				<tr>
 					<td>{{ $cat->cat}}</td>
 					<td>{{ $cat->tien}}</td>
@@ -43,19 +43,15 @@
 					<td>{{ $cat->precioweb}}</td>
 					<td>{{ $cat->vitrina}}</td>
 					<td>
-						<a href="{{URL::action('ArticulosController@edit',$cat->id)}}"><button class="btn btn-info">Editar</button></a>
-					
-
-						
-                         <a href="" data-target="#modal-delete-{{$cat->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
-                    
-					
+						<a href="{{ URL::action('ArticulosController@edit',$cat->id) }}"><button class="btn btn-info">Editar</button></a>
+						<a href="" data-target="#modal-delete-{{$cat->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
+					</td>
 				</tr>
 				@include('almacen.articulos.modal')
 				@endforeach
 			</table>
 		</div>
-		{{$articulo->render()}}
+		{{ $articulo->render() }}
 	</div>
 </div>
 

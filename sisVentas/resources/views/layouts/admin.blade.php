@@ -128,7 +128,7 @@
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/contrato/nuevo"><i class="fa fa-circle-o"></i>Electro y Herramientas</a></li>
+                <li><a href="/contrato"><i class="fa fa-circle-o"></i>Electro y Herramientas</a></li>
                 <li><a href="/contrato/oro"><i class="fa fa-circle-o"></i>ORO</a></li>
                 <li><a href="/contrato/carro"><i class="fa fa-circle-o"></i>CARROS</a></li>
               </ul>

@@ -4,9 +4,9 @@ namespace sisVentas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class detalleContrato extends Model
+class ContratosDetalles extends Model
 {
-    protected $table='detalle_contrato';
+    protected $table='contratos_detalles';
 
     protected $primaryKey='id';
 
@@ -14,20 +14,17 @@ class detalleContrato extends Model
 
 
     protected $fillable =[
-    	
-
-            
+    		'contratos_codigo',
             'descripcion',
             'marca',
             'modelo',
             'serial',
+    		'obsv',
+    		'cover',
             'tazacion',
-            'obsv',
-            'cover',
-            'interes',
+    		'interes',
             'subtotal',
             'total',
-            
     ];
 
     protected $guarded =[
