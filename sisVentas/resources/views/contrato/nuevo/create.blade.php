@@ -43,7 +43,7 @@
 
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="form-group">
-				<label for="tienda">Tienda</label> 
+				<label for="tiendas_id">Tienda</label> 
 				<select name="tiendas_id" class="form-control selectpicker" id="tienda" data-live-search="true"> 
 				@foreach ($tiendas as $tienda)
 					<option value="{{ $tienda->id }}">{{ $tienda->nombre }}</option>
@@ -83,7 +83,7 @@
 				<label for="categoria">CATEGORIA</label> 
 				<select name="categorias_id" class="form-control selectpicker" id="categoria" data-live-search="true"> 
 					@foreach ($categorias as $categoria)
-					<option value="{{ $categoria->id }}">
+					<option value="{{ $categoria->id}}_{{$categoria->interes}}">
 					{{ $categoria->nombre }}
 					</option> 
 					@endforeach
@@ -256,12 +256,12 @@ function agregar(){
 		if (cal <= 9) {
 			cal = baja;
 		}else{
-			cal = (tazacion * interes) / 100;
+			cal = (tazacion * interes);
 		}
 
 		subtotal[cont] = (parseFloat(cal)+parseFloat(tazacion));
 		total = (parseFloat(total)+parseFloat(subtotal[cont]));
-		interes = (parseFloat(cal));
+		interes = (cal);
             
 		var fila='<tr class="selected" id="fila'+cont+'"><td> <button type="button" class="btn btn-warning" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="descripcion[]" value="'+descripcion+'">'+descripcion+'</td><td><input type="hidden" name="modelo[]" value="'+modelo+'">'+modelo+'</td><td><input type="hidden" name="marca[]" value="'+marca+'">'+marca+'</td><td><input type="hidden" name="cover[]" value="'+cover+'">'+cover+'</td><td><input type="hidden" name="serial[]" value="'+serial+'">'+serial+'</td><td><input type="hidden" name="obsv[]" value="'+obsv+'">'+obsv+'</td><td><input type="hidden" name="tazacion[]" value="'+tazacion+'">'+tazacion+'</td><td><input type="hidden" name="interes[]" value="'+interes+'">'+interes+'</td><td><input type="hidden" name="subtotal[]" value="'+subtotal+'">'+subtotal[cont]+'</td><td><input type="hidden" name="total[]" value="'+total+'">'+total+'</td></tr>';
 			cont++;

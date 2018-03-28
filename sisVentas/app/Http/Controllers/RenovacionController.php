@@ -4,6 +4,7 @@ namespace sisVentas\Http\Controllers;
 
 use Illuminate\Http\Request;
 use sisVentas\Contratos;
+use sisVentas\caja_ingresos;
 use sisVentas\ContratosRenovaciones;
 use DB;
 use Carbon\Carbon;
@@ -76,7 +77,16 @@ class RenovacionController extends Controller {
 				'total_interes'		=>	$request->total_interes,
 				'total_mora'		=>	$request->total_mora,
 				'total_pagado'		=>	$request->total_pagado,
+
+		
 		]);
+
+		$caja_ingreso= new caja_ingresos;
+        $caja_ingreso->contratos_codigo=$request->get('contratos_codigo');
+       
+        $caja_ingreso->tipo_movimiento='Ingresos Por Electro';
+        $caja_ingreso->monto=$request->get('total_pagado');
+        $caja_ingreso->save();
 		
 		return $renovacion;
 	}
@@ -86,6 +96,8 @@ class RenovacionController extends Controller {
 		// Consultar Contrato
 		$contrato = $this->contratos->getContatoyDetallesContrato($id);
 		
+	
+
 		// Consultar Reovaciones
 		$contrato_renovacion = $this->contratos_renovaciones->getRenovacionesxContrato($contrato->contratos_codigo);
 		
@@ -138,17 +150,12 @@ class RenovacionController extends Controller {
 	{
 		$total_interes = 0;
 		
-		if ($dias <= 30) {
+		if ($dias <= 35) {
 			$total_interes = $detalles_contrato->interes;
 		}
 		
-		if ($dias > 30 && $dias <= 35) {
-			$interes_diario = $detalles_contrato->interes / 30;
-			$total_interes = $interes_diario * $dias;
-		}
-		
 		if ($dias > 35 && $dias <= 65) {
-			$interes_diario = ($detalles_contrato->interes * 2)/ 30;
+			$interes_diario = ($detalles_contrato->interes)/ 30;
 			$total_interes = $interes_diario * $dias;
 		}
 		
@@ -160,13 +167,17 @@ class RenovacionController extends Controller {
 		$total_mora = 0;
 		
 		if ($dias > 35 && $dias <= 60) {
-			$total_mora = $detalles_contrato->interes * 0.25;
+			$total_mora = $detalles_contrato->interes * 0.30;
 		}
 	
 		if ($dias > 60 && $dias <= 65) {
-			$total_mora = $detalles_contrato->interes * 0.50;
+			$total_mora = $detalles_contrato->interes * 1;
+
+
 		}
-	
+		if ($dias > 66) {
+			
+		}
 		return $total_mora;
 	}
 	

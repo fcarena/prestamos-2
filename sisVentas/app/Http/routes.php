@@ -15,8 +15,14 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+
+Route::resource('caja/egresos','CajaEgresosController');
+Route::resource('caja/ingresos','CajaIngresosController');
+Route::resource('caja/cierre','CierreCajaController');
+
+
 Route::resource('almacen/categoria','CategoriaController');
-Route::resource('consultas/categorias','CategoriaController@indexx');
+
 
 Route::get('almacen/persona','PersonaControllers@index');
 Route::get('almacen/persona/create','PersonaControllers@create');
@@ -24,15 +30,15 @@ Route::post('almacen/persona','PersonaControllers@store');
 Route::get('almacen/persona/{id}','PersonaControllers@edit')->name('almacen.persona');
 Route::post	('almacen/persona/{id}','PersonaControllers@update')->name('almacen.persona');
 //Route::post('almacen/persona','PersonaControllers@destroy');
-Route::resource('consultas/personas','PersonaControllers@indexx');
+
 
 Route::resource('seguridad/usuario','UsuarioController');
 
 Route::resource('almacen/articulos','ArticulosController');
-Route::resource('consultas/articulos','ArticulosController@indexx');
+
 
 Route::resource('almacen/tienda','TiendaController');
-Route::resource('consultas/tiendas','TiendaController@indexx');
+
 
 Route::get('contrato','ContratoController@index');
 Route::get('contrato/nuevo','ContratoController@create');

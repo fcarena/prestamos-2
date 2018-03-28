@@ -1,5 +1,4 @@
-{!! Form::open(array('url'=>'almacen/persona','method'=>'GET','autocomplete'=>'off','role'=>'search')) !!}
-<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+{!! Form::open(array('url'=>'almacen/tienda','method'=>'GET','autocomplete'=>'off','role'=>'search')) !!}
 <div class="form-group">
 	<div class="input-group">
 		<input type="text" class="form-control" name="searchText" placeholder="Buscar..." value="{{$searchText}}">
@@ -7,7 +6,6 @@
 			<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>Buscar</button>
 		</span>
 	</div>
-</div>
 </div>
 
 {{Form::close()}}

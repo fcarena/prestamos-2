@@ -1,13 +1,12 @@
 @extends ('layouts.admin') 
 @section ('contenido')
-
-<div class="box box-info">
 	<script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
 	@stack('scripts')
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Renovacion del Contrato</h3>
+			<center>
+			<h2>Renovacion del Contrato</h2></center>
 
 			@if (count($errors)>0)
 			<div class="alert alert-danger">
@@ -24,7 +23,7 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="codigo">Numero de Contrato</label> 
+					<label for="codigo">NUMERO DE CONTRATO</label> 
 					<select name="codigo" class="form-control selectpicker" id="codigo" data-live-search="false">
 						<option selected="selected">{{ $contrato->codigo }}</option>
 					</select>
@@ -32,18 +31,18 @@
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="nombre">Nombres</label> <input type="text"
+					<label for="nombre">NOMBRES</label> <input type="text"
 						name="nombre" id="nombre" class="form-control" value="{{ $contrato->nombre }}, {{ $contrato->apellido }}">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 				<div class="form-group">
-					<label for="tienda">Tienda</label> <input type="text" name="tienda" id="tienda" class="form-control" value="{{ $contrato->tiendas_nombre }}">
+					<label for="tienda">TIENDA</label> <input type="text" name="tienda" id="tienda" class="form-control" value="{{ $contrato->tiendas_nombre }}">
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
-					<label for="estatus">Estatus</label> 
+					<label for="estatus">ESTATUS</label> 
 					<input type="text" name="estatus" id="estatus" class="form-control" value="{{ $contrato->estatus }}">
 				</div>
 			</div>
@@ -52,19 +51,19 @@
 			<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="descripcion">Descripcion del Articulo</label> 
+					<label for="descripcion">DESCRIPCION DEL ARTICULO</label> 
 					<input type="descripcion" name="total" id="descripcion" class="form-control" value="{{ $contrato->descripcion }}">
 				</div>
 			</div>
 			<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
 				<div class="form-group">
-					<label for="obsv">Observacion del Articulo</label> 
+					<label for="obsv">OBSERVACION DEL ARTICULO</label> 
 					<input type="obsv" name="total" id="obsv" class="form-control" value="{{ $contrato->obsv }}">
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
-					<label for="cover">Cover</label> 
+					<label for="cover">COVER</label> 
 					<input type="cover" name="total" id="cover" class="form-control" value="{{ $contrato->cover }}">
 				</div>
 			</div>
@@ -74,33 +73,33 @@
 		{{ Form::token() }}
 	
 		<div class="row">
-			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
-					<label for="fecha_inicio">Fecha Contrato</label> 
+					<label for="fecha_inicio">FECHA CONTRATO</label> 
 					<input type="text" name="fecha_renovacion" id="fecha_renovacion" class="form-control" value="{{ $fechas['fecha_inicio'] }}">
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="fecha_mes">Fechas de Pago</label> 
+					<label for="fecha_mes">FECHA DE PAGO</label> 
 					<input type="text" name="fecha_mes" id="fecha_mes" class="form-control" value="{{ $fechas['fecha_mes'] }}">
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="fecha_final">Fecha de Mora</label> 
+					<label for="fecha_final">FECHA DE MORA</label> 
 					<input type="text" name="fecha_final" id="fecha_final" class="form-control" value="{{ $fechas['fecha_final'] }}">
 				</div>
 			</div>
-			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
-					<label for="dias">Dias</label> 
+					<label for="dias">DIAS</label> 
 					<input type="text" name="dias" id="dias" class="form-control" value="{{ $dias_transcurridos }}">
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
-					<label for="interes">Interes</label> 
+					<label for="interes">INTERES</label> 
 					<input type="text" name="interes" id="interes" class="form-control" value="{{ $contrato->interes }}">
 				</div>
 			</div>
@@ -234,63 +233,6 @@ function mostarvalores()
       
       
 }
-function calcular_interes(){
-
-	cont=0;
-	descripcion = $("#descripcion").val();
-	tazacion = $("#tazacion").val();
-	interes = $("#interes").val();
-	fecha_inicio = $("#fecha_inicio").val();
-	fecha_dia = $("#fecha_dia").val();
-	dias = $("#dias").val();
-
-	alert(dias);
-
-	if (descripcion!="" && tazacion!="" && interes!="" && fecha_inicio!="" && dias!="" && cont < "1")
-	{
-		mora = 0.0;
-	
-		if (dias<30) {
-			xdia=(parseFloat(interes)/30);
-			totalf=(parseFloat(interes)+parseFloat(tazacion));
-		}
-	
-		if (dias>=30 && dias<36) {
-			xdia=(interes/30);
-			interes=xdia*dias;
-			totalf=(parseFloat(interes)+parseFloat(tazacion));
-		}
-		
-		if (dias>=36 && dias<=60) {
-			interes=(interes*2);
-			xdia=(interes/30);
-			mora=(interes*0.25);
-			cxdia=(xdia*dias);
-			totalf=(parseFloat(interes)+parseFloat(mora)+parseFloat(cxdia)+parseFloat(tazacion));
-		}
-		
-		if (dias>60 && dias<66) {
-			interes=(interes*2);
-			xdia=(interes/30);
-			mora=(interes*0.50);
-			cxdia=(xdia*dias);
-			totalf=(parseFloat(interes)+parseFloat(mora)+parseFloat(cxdia)+parseFloat(tazacion));
-		}
-		
-		if (dias>=66) {
-			alert("Articulo en Vitrina");
-		}
-	          
-		var fila='<tr class="selected" id="fila'+cont+'"><td><a href="{{URL::action('RenovacionController@edit',$contrato->codigo)}}"><button class="btn btn-info">Pagar</button></td><td><input type="hidden" name="descripcion[]" value="'+descripcion+'">'+descripcion+'</td><td><input type="hidden" name="interes[]" value="'+interes+'">'+interes+'</td></tr>';
-		cont++;
-		evaluar();
-		$('#detalles').append(fila);
-		
-	}else{
-		alert("Error debe Selecionar un Codigo de Contrato");
-		alert(" y generar los dias del contrato");
-	}
-}
 
 function agregarm(){
 
@@ -309,12 +251,6 @@ function agregarm(){
                   mora=0.0;
                   
 
-             if (dias<30) {
-
-                        xdia=(parseFloat(interes)/30);
-                         totalf=(parseFloat(interes)+parseFloat(tazacion));
-                  
-            }
             if (dias>=30 && dias<36) {
 
                         xdia=(interes/30);
@@ -322,7 +258,7 @@ function agregarm(){
                          totalf=(parseFloat(interes)+parseFloat(tazacion));
                   
             }
-            if (dias>=36 && dias<=60) {
+            if (dias>=36 && dias<=66) {
                         interes=(interes*2);
                         xdia=(interes/30);
                         mora=(interes*0.25);
@@ -330,14 +266,7 @@ function agregarm(){
                          totalf=(parseFloat(interes)+parseFloat(mora)+parseFloat(cxdia)+parseFloat(tazacion));
                                
             }
-            if (dias>60 && dias<66) {
-                        interes=(interes*2);
-                        xdia=(interes/30);
-                        mora=(interes*0.50);
-                        cxdia=(xdia*dias);
-                         totalf=(parseFloat(interes)+parseFloat(mora)+parseFloat(cxdia)+parseFloat(tazacion));
-                               
-            }
+           
              if (dias>=66) {
                         alert("Articulo en Vitrina");
                                
@@ -358,9 +287,6 @@ function agregarm(){
     }
       else
       {
-
-            alert("Error debe Selecionar un Codigo de Contrato");
-            alert(" y generar los dias del contrato");
             
 
       }

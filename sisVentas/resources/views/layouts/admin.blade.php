@@ -95,16 +95,9 @@
               <ul class="treeview-menu">
                 <li class="treeview">
               <a href="#">
-                <i class="fa fa-plus-square"></i>
-                <span>Articulos</span>
-                 <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/almacen/articulos"><i class=""></i> Electrodomesticos</a></li>
-                <li><a href="/almacen/oro"><i class=""></i>Oro</a></li>
-                <li><a href="/almacen/carros"><i class=""></i>Carros</a></li>
                 
-              </ul>
+              </a>
+              
             </li>
                 
                 <li><a href="/almacen/categoria"><i class="fa fa-circle-o"></i> Categorías</a></li>
@@ -175,9 +168,9 @@
               </a>
               <ul class="treeview-menu">
                  <li><a href="/consultas/personas"><i class="fa fa-circle-o"></i> Ventas </a></li>
-                <li><a href="/consultas/categorias"><i class="fa fa-circle-o"></i>Ingresos</a></li>
-                <li><a href="/consultas/articulos"><i class="fa fa-circle-o"></i>Egresos</a></li>
-                <li><a href="/consultas/personas"><i class="fa fa-circle-o"></i> Cierre de Caja</a></li>
+                <li><a href="/caja/ingresos"><i class="fa fa-circle-o"></i>Ingresos</a></li>
+                <li><a href="/caja/egresos"><i class="fa fa-circle-o"></i>Egresos</a></li>
+                <li><a href="/caja/cierre"><i class="fa fa-circle-o"></i> Cierre de Caja</a></li>
 
               </ul>
             </li>
@@ -231,6 +224,11 @@
             <div class="col-md-12">
               <div class="box">
                 <div class="box-header with-border">
+                   <center>
+
+                  <h1 face="arial" class="">SISTEMAS DE PRESTOCASH </h1>
+                  <img src="/img/presto.png">
+            </center>
                     <!--<h3 class="box-title">SISTEMAS DE PRESTAMOS</h3>-->
                     <!--Contenido-->
                     @yield('contenido')
