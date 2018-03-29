@@ -20,7 +20,7 @@
 	
       </div>
 
-      {!!Form::open(array('url'=>'contrato/oro','method'=>'POST','autocomplete'=>'off','files'=>'true'))!!}
+ {!!Form::open(array('url'=>'contrato/oro','method'=>'POST','autocomplete'=>'off','files'=>'true'))!!}
             {{Form::token()}}
 
       <div class="row">
@@ -31,7 +31,7 @@
                   <div class="form-group">
                          <label for="dni">DNI</label>
                          <select  name="dni" class="form-control selectpicker" id="bdni" data-live-search="true">
-                               @foreach ($persona as $persona)
+                               @foreach ($personas as $persona)
                                <option value="{{$persona->dni}}_{{$persona->nombre}}">{{$persona->tipo_dni}}:{{$persona->dni}}
                                
                                </option>
@@ -53,7 +53,7 @@
                          <div class="form-group">
                                <label for="tienda">Tienda</label>
                                <select  name="tienda" class="form-control" id="tienda" data-live-search="true">
-                               @foreach ($tienda as $tienda)
+                               @foreach ($tiendas as $tienda)
                                <option value="{{$tienda->nombre}}">{{$tienda->nombre}}
                                </option>
                                @endforeach
@@ -136,20 +136,20 @@
       <td width="500px">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="form-group">
-                         <label for="peso_bruto">PESO BRUTO</label>
+                         <label for="peso_bruto">PESO B</label>
                          <input type="Float" name="pesobruto" id="peso_bruto" class="form-control" >
                    </div>
              </div>
              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="form-group">
-                         <label for="monto_calculo">MONTO DE CALCULO</label>
+                         <label for="monto_calculo">M. CALCULO</label>
                          <input type="Float" name="monto_calculo" id="monto_calculo" class="form-control" placeholder="Precio...">
                    </div>
             </div>
 
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="form-group">
-                         <label for="porcentaje_calculo"> % DE CALCULO</label>
+                         <label for="porcentaje_calculo"> % CALCULO</label>
                          <input type="Float" name="porcentaje_calculo" id="porcentaje_calculo" class="form-control" value="0.30" >
                    </div>
             </div>
@@ -164,7 +164,7 @@
              
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                   <div class="form-group">
-                         <label for="interes">Moto Interes</label>
+                         <label for="interes">M. Interes</label>
                          <input type="Float" name="interes" id="interes" class="form-control" placeholder="Interes...">
                    </div>
             </div>
@@ -191,6 +191,7 @@
             
             
       </td>
+      </table>
       <td width="500px">
              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
@@ -226,7 +227,7 @@
             </div> 
       </td>
 
-  </table>
+  
              
                               
        </div>
@@ -246,14 +247,14 @@
 
 @push ('scripts')
 <script>
-
+contc=0;
 $(document).ready(function(){
             $('#bcalculo').click(function(){
                   agregarc();
             });
       });
 var cont=0;
-contc=0;
+
 total=0;
 int=0;
 peso=0;
@@ -302,15 +303,13 @@ function agregarc(){
             total=(tazacion+interes);
             
 
-            var fila='<tr class="selected" id="fila'+contc+'"><td> <button type="button" class="btn btn-" onclick="llenar('+contc+');">OK</button></td><td><input type="hidden" name="peso_bruto[]" value="'+peso_bruto+'">'+peso_bruto+'</td><td><input type="hidden" name="porcentaje_calculo[]" value="'+porcentaje_calculo+'">'+porcentaje_calculo+'</td><td><input type="hidden" name="monto_calculo[]" value="'+monto_calculo+'">'+monto_calculo+'</td><td><input type="hidden" name="peso_neto[]" value="'+peso_neto+'">'+peso_neto+'</td><td><input type="hidden" name="interes[]" value="'+interes+'">'+interes+'</td><td><input type="hidden" name="tazacion[]" value="'+tazacion+'">'+tazacion+'</td><td><input type="hidden" name="total[]" value="'+total+'">'+total+'</td></tr>';
+            var fila='<tr class="selected" id="fila'+contc+'"><td> <button type="button" class="btn btn-warning" onclick="llenar('+contc+');">OK</button></td><td><input type="hidden" name="peso_bruto[]" value="'+peso_bruto+'">'+peso_bruto+'</td><td><input type="hidden" name="porcentaje_calculo[]" value="'+porcentaje_calculo+'">'+porcentaje_calculo+'</td><td><input type="hidden" name="monto_calculo[]" value="'+monto_calculo+'">'+monto_calculo+'</td><td><input type="hidden" name="peso_neto[]" value="'+peso_neto+'">'+peso_neto+'</td><td><input type="hidden" name="interes[]" value="'+interes+'">'+interes+'</td><td><input type="hidden" name="tazacion[]" value="'+tazacion+'">'+tazacion+'</td><td><input type="hidden" name="total[]" value="'+total+'">'+total+'</td></tr>';
                   contc++;
                   evaluar();
                   
                   $('#tcalculo').append(fila);
 
-
-                  
-                                      
+               
                         
     }
       else
@@ -324,8 +323,9 @@ function agregarc(){
       
 }
 
- function llenar(){
+ function llenar(id){
 
+      
       $("#peso_bruto").val(peso_bruto);
       $("#porcentaje_calculo").val(porcentaje_calculo);
       $("#monto_calculo").val(monto_calculo);

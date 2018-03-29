@@ -1,10 +1,14 @@
 @extends ('layouts.admin')
 @section ('contenido')
 <div class="row">
-	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>Listado de Categorías </h3>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<h1>Listado de Categorías </h1>
+	</div>
+
 		@include('almacen.categoria.search')
-		<a href="categoria/create"><button class="btn btn-success">Nuevo</button></a>
+		
+		<div class="col-lg-2 col-md-2 col-sm-2 pull-right">
+<a href="categoria/create"><button class="btn btn-success"><i class="fa fa-home"></i>Nuevo</button></a>
 	</div>
 </div>
 

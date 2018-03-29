@@ -8,6 +8,7 @@ use sisVentas\Http\Requests;
 
 use sisVentas\oro;
 use sisVentas\detalleoro;
+use sisVentas\caja_egresos;
 use Illuminate\Support\Facades\Redirect;
 use sisVentas\Http\Requests\OroFormRequest;
 use DB;
@@ -35,18 +36,17 @@ class OroController extends Controller
     }
     public function create()
     {
-        $contrato=DB::table('contrato')->get();
-        $persona=DB::table('persona as per')
+        $persona=DB::table('personas as per')
 		->select('per.nombre','per.dni','per.tipo_dni')
         ->get();
         $now = Carbon::now('America/Lima');
-        $categoria=DB::table('categoria as cat')
+        $categoria=DB::table('categorias as cat')
         ->select('cat.nombre','cat.interes')
         ->get();
-        $tienda=DB::table('tienda as ti')
+        $tienda=DB::table('tiendas as ti')
         ->select('ti.nombre')
         ->get();
-        return view("contrato.oro.create",["categoria"=>$categoria, "now"=>$now, "tienda"=>$tienda, "contrato"=>$contrato, "persona"=>$persona]);
+        return view("contrato.oro.create",["categorias"=>$categoria, "now"=>$now, "tiendas"=>$tienda, "personas"=>$persona]);
 
     }
 
@@ -68,6 +68,8 @@ try {
         $oro->estatus='Activo';
         $oro->save();
 
+        
+
         $descripcion=$request->get('descripcion');
         $obsv=$request->get('obsv');
         $cover=$request->get('cover');
@@ -79,8 +81,17 @@ try {
         $porcentaje_calculo=$request->get('porcentaje_calculo');
         $total=$request->get('total');
         $mora='0';
+        
 
-        $mora='0';
+        $caja_egresos= new caja_egresos;
+        $caja_egresos->contrato_codigo=$request->get('codigo');
+        $caja_egresos->tienda=$request->get('tienda');
+        $caja_egresos->tipo_movimiento='Egresos Por ORO';
+        $caja_egresos->monto=$tazacion[0];
+        $caja_egresos->save();
+
+       
+
 
         $contc=0;
         while ( $contc <= 0 ){
@@ -100,6 +111,8 @@ try {
         $detalle->save();
          $contc=$contc+1;
 
+
+       
 
 }
 

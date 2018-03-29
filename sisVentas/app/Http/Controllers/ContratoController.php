@@ -14,6 +14,7 @@ use sisVentas\Contratos;
 use sisVentas\Personas;
 use sisVentas\Categorias;
 use sisVentas\Tiendas;
+use sisVentas\caja_egresos;
 use Illuminate\Database\Eloquent\Model;
 
 class ContratoController extends Controller
@@ -61,6 +62,7 @@ class ContratoController extends Controller
 	    	$contrato = new Contratos();
 	    	$contrato_creado = $contrato->create($request->all());
 	    	
+
 	    	$descripcion 	=	$request->get('descripcion');
 	    	$marca			=	$request->get('marca');
 	    	$modelo			=	$request->get('modelo');
@@ -71,6 +73,14 @@ class ContratoController extends Controller
 	    	$interes		=	$request->get('interes');
 	    	$subtotal		=	$request->get('subtotal');
 	    	$total			=	$request->get('total');
+		
+		$caja_egresos= new caja_egresos;
+        $caja_egresos->contrato_codigo=$request->get('codigo');
+        $caja_egresos->tienda=$request->get('tiendas_id');
+        $caja_egresos->tipo_movimiento='Egresos Por Electro';
+        $caja_egresos->monto=$tazacion[0];
+        $caja_egresos->save();
+	   
 	    	
 	    	$cont=0;
 	    	while ( $cont <= 0 ){
@@ -93,6 +103,7 @@ class ContratoController extends Controller
 	    		$cont = $cont + 1;
 	    	}
 	    });
+
 
 		return redirect('contrato');
 	}

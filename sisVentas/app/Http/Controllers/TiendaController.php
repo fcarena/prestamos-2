@@ -5,7 +5,7 @@ namespace sisVentas\Http\Controllers;
 use Illuminate\Http\Request;
 
 use sisVentas\Http\Requests;
-use sisVentas\tienda;
+use sisVentas\tiendas;
 use Illuminate\Support\Facades\Redirect;
 use sisVentas\Http\Requests\TiendaFormRequest;
 use DB;
@@ -21,7 +21,8 @@ class TiendaController extends Controller
         if ($request)
         {
             $query=trim($request->get('searchText'));
-            $tienda=DB::table('tienda')->where('nombre','LIKE','%'.$query.'%')
+            $tienda=DB::table('tiendas')
+            ->where('nombre','LIKE','%'.$query.'%')
             ->paginate(10);
             return view('almacen.tienda.index',["tienda"=>$tienda,"searchText"=>$query]);
         }
@@ -31,14 +32,12 @@ class TiendaController extends Controller
     {
         return view("almacen.tienda.create");
     }
-    public function store (TiendaFormRequest $request)
+    public function store (Request $request)
     {
-        $tienda=new tienda;
-        $tienda->nombre=$request->get('nombre');
-        $tienda->letrae=$request->get('letrae');
-        $tienda->letrao=$request->get('letrao');
-        $tienda->save();
+         $tiendas= new tiendas();
+        $tiendas->create($request->all());
         return Redirect::to('almacen/tienda');
+
 
     }
     public function show($id)
@@ -47,20 +46,18 @@ class TiendaController extends Controller
     }
     public function edit($id)
     {
-        return view("almacen.tienda.edit",["tienda"=>tienda::findOrFail($id)]);
+        return view("almacen.tienda.edit",["tienda"=>tiendas::findOrFail($id)]);
     }
-    public function update(TiendaFormRequest $request,$id)
+    public function update(Request $request,$id)
     {
-        $tienda=tienda::findOrFail($id);
-        $tienda->nombre=$request->get('nombre');
-        $tienda->letrae=$request->get('letrae');
-        $tienda->letrao=$request->get('letrao');
+        $tienda=tiendas::findOrFail($id);
+        $tienda->fill($request->all());
         $tienda->update();
         return Redirect::to('almacen/tienda');
     }
     public function destroy($id)
     {
-        $tienda = DB::table('tienda')->where('id', '=', $id)->delete();
+        $tienda = DB::table('tiendas')->where('id', '=', $id)->delete();
         return Redirect::to('almacen/tienda');
     }
 

@@ -4,14 +4,17 @@ namespace sisVentas\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use sisVentas\Http\Requests;
+use sisVentas\caja_ingresos;
 use sisVentas\caja_egresos;
+use sisVentas\cierrecaja;
 use Illuminate\Support\Facades\Redirect;
-use sisVentas\Http\Requests\caja_egresosFormRequest;
+use sisVentas\Http\Requests\caja_cierreFormRequest;
 use DB;
 
-class CajaEgresosController extends Controller
+class CierreCajaController extends Controller
 {
-    public function __construct()
+   public function __construct()
     {
 
     }
@@ -20,14 +23,11 @@ class CajaEgresosController extends Controller
         if ($request)
         {
             $query=trim($request->get('searchText'));
-            $egresos=DB::table('caja_egresos as ce')
-            ->join('tiendas as t','t.id','=','ce.tienda')
-            ->select('t.nombre','ce.id','ce.contrato_codigo','ce.tipo_movimiento','ce.tienda','ce.monto')
-            ->where('ce.contrato_codigo','LIKE','%'.$query.'%')
+            $cierre=DB::table('caja_cierre')
+            ->where('created_at','LIKE','%'.$query.'%')
             ->orderBy('id','desc')
             ->paginate(10);
-            
-            return view('caja.egresos.index',["egresos"=>$egresos,"searchText"=>$query]);
+            return view('caja.cierre.index',["cierre"=>$cierre,"searchText"=>$query]);
         }
     }
     

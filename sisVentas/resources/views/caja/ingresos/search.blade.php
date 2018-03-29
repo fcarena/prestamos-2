@@ -1,4 +1,4 @@
-{!! Form::open(array('url'=>'almacen/persona','method'=>'GET','autocomplete'=>'off','role'=>'search')) !!}
+{!! Form::open(array('url'=>'caja/ingresos','method'=>'GET','autocomplete'=>'off','role'=>'search')) !!}
 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 <div class="form-group">
 	<div class="input-group">

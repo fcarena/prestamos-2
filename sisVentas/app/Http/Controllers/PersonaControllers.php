@@ -28,18 +28,6 @@ class PersonaControllers extends Controller
             return view('almacen.persona.index',["persona"=>$persona,"searchText"=>$query]);
         }
 	}
-
-	public function indexx(Request $request)
-    {
-        if ($request)
-        {
-            $query=trim($request->get('searchText'));
-            $persona=DB::table('personas as per')
-            ->where('per.nombre','LIKE','%'.$query.'%')->orwhere('per.dni','LIKE','%'.$query.'%')
-            ->paginate(5);
-            return view('consultas.personas.index',["persona"=>$persona,"searchText"=>$query]);
-        }
-	}
         
     public function create()
     {

@@ -24,6 +24,7 @@ class ContratosRenovaciones extends Model
 			'fecha_renovacion',
 			'fecha_mes',
 			'fecha_final',
+			'tiendas_id',
 			'dias',
 			'total_interes',
 			'total_mora',

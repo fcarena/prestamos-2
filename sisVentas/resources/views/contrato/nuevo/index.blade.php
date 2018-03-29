@@ -8,8 +8,8 @@
 	
 	@include('contrato.nuevo.search')
 	
-	<div class="col-lg-1 col-md-1 col-sm-1 pull-right">
-		<a href="contrato/nuevo"><button class="btn btn-success">Nuevo</button></a>
+	<div class="col-lg-2 col-md-2 col-sm-2 pull-right">
+		<a href="contrato/nuevo"><button class="btn btn-success"><i class="fa fa-home"></i>Nuevo</button></a>
 	</div>
 </div>
 

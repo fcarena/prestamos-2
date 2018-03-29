@@ -1,11 +1,13 @@
 @extends ('layouts.admin')
 @section ('contenido')
-<div class="box box-info">
+
 <div class="row">
 	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
 		<h3>LISTADO DE PERSONAS </h3>
+	</div>
 		@include('almacen.persona.search')
-		<a href="persona/create"><button class="btn btn-success">Nuevo</button></a>
+		<div class="col-lg-2 col-md-2 col-sm-2 pull-right">
+		<a href="persona/create"><button class="btn btn-success"><i class="fa fa-home"></i>Nuevo</button></a>
 	</div>
 </div>
 

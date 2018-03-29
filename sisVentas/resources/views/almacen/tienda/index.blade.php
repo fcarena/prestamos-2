@@ -3,8 +3,10 @@
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 		<h3>Listado de Tiendas </h3>
+	</div>
 		@include('almacen.tienda.search')
-		<a href="tienda/create"><button class="btn btn-success">Nuevo</button></a>
+		<div class="col-lg-2 col-md-2 col-sm-2 pull-right">
+		<a href="tienda/create"><button class="btn btn-success"><i class="fa fa-home"></i>Nuevo</button></a>
 	</div>
 </div>
 
