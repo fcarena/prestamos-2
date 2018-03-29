@@ -32,7 +32,7 @@ class ContratosRenovaciones extends Model
 	
 	public function getRenovacionesxContrato($codigo) {
 		$consulta = ContratosRenovaciones::where('contratos_codigo', $codigo)
-		->get()->last();
+		->get();
 		
 		return $consulta;
 	}

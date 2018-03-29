@@ -86,7 +86,7 @@ class RenovacionController extends Controller {
 		// Consultar Contrato
 		$contrato = $this->contratos->getContatoyDetallesContrato($id);
 		
-		// Consultar Reovaciones
+		// Consultar Renovaciones
 		$contrato_renovacion = $this->contratos_renovaciones->getRenovacionesxContrato($contrato->contratos_codigo);
 		
 		// Fecha Actual
@@ -103,11 +103,12 @@ class RenovacionController extends Controller {
 			$fecha_inicio = Carbon::parse($fechas['fecha_inicio']);
 			
 		}else{
+			
 			$fechas = [
 					'fecha_actual' 	=> $fecha_actual->format('Y-m-d'),
-					'fecha_inicio' 	=> $contrato_renovacion->fecha_renovacion,
-					'fecha_mes' 	=> $contrato_renovacion->fecha_mes,
-					'fecha_final' 	=> $contrato_renovacion->fecha_final
+					'fecha_inicio' 	=> Carbon::parse($contrato_renovacion->last()->fecha_renovacion)->format('Y-m-d'),
+					'fecha_mes' 	=> $contrato_renovacion->last()->fecha_mes,
+					'fecha_final' 	=> $contrato_renovacion->last()->fecha_final
 			];
 			
 			$fecha_inicio = Carbon::parse($fechas['fecha_inicio']);
@@ -117,13 +118,15 @@ class RenovacionController extends Controller {
 		$total_interes = $this->calcularInteres($dias_transcurridos, $contrato);
 		$total_mora = $this->calcularMora($dias_transcurridos, $contrato);
 		
-		return view ('detalles.renovacion.index', compact('contrato', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
+		return view ('detalles.renovacion.index', compact('contrato', 'contrato_renovacion', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
 	}
 	
 	public function calcularDias($fecha_mayor, $fecha_menor) 
 	{
-		$dias_transcurridos = $fecha_mayor->diffInDays($fecha_menor);
-	
+		if ($fecha_mayor > $fecha_menor) {
+			$dias_transcurridos = $fecha_mayor->diffInDays($fecha_menor);
+		}else $dias_transcurridos = 0;
+		
 		return $dias_transcurridos;
 	}
 	
