@@ -42,10 +42,10 @@
 					<td>{{ $cat->estatus}}</td>
 					<td>
                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                     	<a href="" ><button class="btn btn-info">Ver</button></a>
+                     	<a href="{{ route("detalles_contrato/vista_oro/",$cat->id) }}" ><button class="btn btn-info">Ver</button></a>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                     	<a href="/detalles_contrato/renovacion_oro" ><button class="btn btn-warning">Renovar</button></a>
+                     <a href="{{ route("detalles_contrato/renovacion_oro/",$cat->id) }}" ><button class="btn btn-warning">Renovar</button></a>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                      	<a  href="/detalles_contrato/cancelacion_oro"><button class="btn btn-danger">Cancelar</button></a>

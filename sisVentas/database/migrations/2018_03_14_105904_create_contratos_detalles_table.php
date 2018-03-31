@@ -14,10 +14,8 @@ class CreateContratosDetallesTable extends Migration
     {
         Schema::create('contratos_detalles', function (Blueprint $table) {
             $table->increments('id');
-            
             $table->integer('contratos_codigo');
             $table->foreign('contratos_codigo')->references('codigo')->on('contratos');
-            
             $table->string('descripcion');
             $table->string('marca');
             $table->string('modelo');

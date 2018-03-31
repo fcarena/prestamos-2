@@ -83,7 +83,7 @@ class RenovacionController extends Controller {
 
 		$caja_ingreso= new caja_ingresos;
         $caja_ingreso->contratos_codigo=$request->get('contratos_codigo');
-       
+      	$caja_ingreso->tienda=$request->get('tienda');
         $caja_ingreso->tipo_movimiento = 'Ingresos Por Electro';
         $caja_ingreso->monto = $request->get('total_pagado');
         $caja_ingreso->save();
@@ -102,7 +102,7 @@ class RenovacionController extends Controller {
 		// Fecha Actual
 		$fecha_actual = Carbon::now();
 		
-		if (is_null($contrato_renovacion)) {
+		if ($contrato_renovacion->count() == 0) {
 			$fechas = [
 					'fecha_actual' 	=> $fecha_actual->format('Y-m-d'),
 					'fecha_inicio' 	=> $contrato->fecha_inicio,

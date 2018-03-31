@@ -22,12 +22,14 @@ class CierreCajaController extends Controller
     {
         if ($request)
         {
-            $query=trim($request->get('searchText'));
-            $cierre=DB::table('caja_cierre')
-            ->where('created_at','LIKE','%'.$query.'%')
-            ->orderBy('id','desc')
-            ->paginate(10);
-            return view('caja.cierre.index',["cierre"=>$cierre,"searchText"=>$query]);
+    
+            $caja_cierre=DB::table('Cierre_Caja as cc')
+            ->join('caja_ingresos as ci','ci.created_at','=','cc.created_at')
+            ->join('caja_egresos as ce','ce.id','=','cc.id')
+           ->select('ci.tipo_movimiento as cid','ci.contratos_codigo as cic','ce.contrato_codigo as cec','ce.created_at as cef','cc.id','ci.monto as mci','ce.monto as mce','ce.tipo_movimiento as ced','ci.tipo_movimiento')
+            ->get();
+                        
+            return view('caja.cierre.index',["caja_cierre"=>$caja_cierre]);
         }
     }
     

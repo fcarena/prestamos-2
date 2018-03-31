@@ -9,6 +9,7 @@ use sisVentas\Http\Requests;
 use sisVentas\oro;
 use sisVentas\detalleoro;
 use sisVentas\caja_egresos;
+use sisVentas\ContratoRenovacionOro;
 use Illuminate\Support\Facades\Redirect;
 use sisVentas\Http\Requests\OroFormRequest;
 use DB;
@@ -16,9 +17,21 @@ use Carbon\Carbon;
 
 class OroController extends Controller
 {
+
+    protected $oro;
+    protected $contratos_renovacionesoro;
    public function __construct()
     {
 
+        // Verificar Autenticacion del Usuario
+        //$this->middleware('auth');
+        
+        // Modelo Contratos
+        $this->oro = new oro();
+        
+        // Modelo ContratosRenovaciones
+        $this->contratos_renovacionesoro = new ContratoRenovacionOro();
+    
     }
     public function index(Request $request)
     {
@@ -83,13 +96,13 @@ try {
         $mora='0';
         
 
+      
         $caja_egresos= new caja_egresos;
         $caja_egresos->contrato_codigo=$request->get('codigo');
-        $caja_egresos->tienda=$request->get('tienda');
-        $caja_egresos->tipo_movimiento='Egresos Por ORO';
+        $caja_egresos->tienda=$request->get('tiendas_id');
+        $caja_egresos->tipo_movimiento='Egresos Por Oro';
         $caja_egresos->monto=$tazacion[0];
         $caja_egresos->save();
-
        
 
 
@@ -132,20 +145,106 @@ catch (Exception $e) {
      public function show($id)
     {
         
-            $detalle=DB::table('contrato as co')
-            ->join('persona as per','per.dni','=','co.dni')
-            ->join('categoria as cat','cat.nombre','=','co.categoria')
-            ->join('detalle_contrato as dc','dc.codigo','=','co.codigo')
-            ->select('co.codigo','co.nombre','dc.descripcion','dc.tazacion','co.estatus','co.id')
-            ->where('co.codigo','=',$id)->first();
+            $detalle=DB::table('oro as o')
+            ->join('personas as per','per.dni','=','o.dni')
+            ->join('detalle_oro as do','do.codigo','=','o.codigo')
+            ->select('do.interes','do.obsv','per.telefono1','per.tipo_dni','per.direccion','per.distrito','per.apellido','o.dni','o.fecha_final','o.fecha_inicio','o.codigo as coo','o.nombre','do.descripcion','do.tazacion','o.estatus','o.id')
+            ->first();
 
-            $detalled=DB::table('detalle_contrato as dc')
-            ->join('contrato as co','dc.codigo','=','co.codigo')
-            ->select('co.codigo','co.nombre','dc.descripcion','dc.tazacion','co.estatus','dc.id')
-            ->where('dc.codigo','=',$id)->get();
+            return view("contrato.oro.show",["detalle"=>$detalle]);
 
-            return view("contrato.nuevo.show",["detalle"=>$detalle,"detalled"=>$detalled]);
+    }
+public function edit($id)
+{
+
+{
+        // Consultar Contrato
+        $oro = $this->oro->getContatoyDetallesContratooro($id);
+        
+        // Consultar Renovaciones
+        $contratos_renovacionesoro = $this->contratos_renovacionesoro->getRenovacionesxContratooro($oro->codigo);
+        
+        // Fecha Actual
+        $fecha_actual = Carbon::now();
+        
+        if ($contratos_renovacionesoro->count() == 0) {
+            $fechas = [
+                    'fecha_actual'  => $fecha_actual->format('Y-m-d'),
+                    'fecha_inicio'  => $oro->fecha_inicio,
+                    'fecha_mes'     => $oro->fecha_mes,
+                    'fecha_final'   => $oro->fecha_final
+            ];
+            
+            $fecha_inicio = Carbon::parse($fechas['fecha_inicio']);
+            
+        }else{
+            
+            $fechas = [
+                    'fecha_actual'  => $fecha_actual->format('Y-m-d'),
+                    'fecha_inicio'  => Carbon::parse($contratos_renovacionesoro->last()->fecha_renovacion)->format('Y-m-d'),
+                    'fecha_mes'     => $contratos_renovacionesoro->last()->fecha_mes,
+                    'fecha_final'   => $contrato_renovacionesoro->last()->fecha_final
+            ];
+            
+            $fecha_inicio = Carbon::parse($fechas['fecha_inicio']);
+        }
+        
+        $dias_transcurridos = $this->calcularDias($fecha_actual, $fecha_inicio);
+        $total_interes = $this->calcularInteres($dias_transcurridos, $oro);
+        $total_mora = $this->calcularMora($dias_transcurridos, $oro);
+        
+        return view ('detalles.renovacion_oro.index', compact('oro', 'contratos_renovacionesoro', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
     }
 
+}
 
+public function calcularDias($fecha_mayor, $fecha_menor) 
+    {
+        if ($fecha_mayor > $fecha_menor) {
+            $dias_transcurridos = $fecha_mayor->diffInDays($fecha_menor);
+        }else $dias_transcurridos = 0;
+        
+        return $dias_transcurridos;
+    }
+    public function adicionarDias($fecha, $dias)
+    {
+        $fecha_con_dias_adicionales = $fecha->addDays($dias);
+    
+        return $fecha_con_dias_adicionales;
+    }
+    
+    public function calcularInteres($dias, $detalles_contrato) 
+    {
+        $total_interes = 0;
+        
+        if ($dias <= 35) {
+            $total_interes = $detalles_contrato->interes;
+        }
+        
+        if ($dias > 35 && $dias <= 65) {
+            $interes_diario = ($detalles_contrato->interes)/ 30;
+            $total_interes = $interes_diario * $dias;
+        }
+        
+        return $total_interes;
+    }
+    
+    public function calcularMora($dias, $detalles_contrato) 
+    {
+        $total_mora = 0;
+        
+        if ($dias > 35 && $dias <= 60) {
+            $total_mora = $detalles_contrato->interes * 0.30;
+        }
+    
+        if ($dias > 60 && $dias <= 65) {
+            $total_mora = $detalles_contrato->interes * 1;
+
+
+        }
+        if ($dias > 66) {
+            
+        }
+        return $total_mora;
+    }
 }

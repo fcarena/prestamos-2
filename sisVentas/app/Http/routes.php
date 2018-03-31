@@ -49,8 +49,13 @@ Route::post('contrato/renovacion','RenovacionController@store')->name('contrato.
 
 
 Route::resource('contrato/oro','OroController');
-Route::resource('contrato/carro','CarroController');
+Route::get('detalles_contrato/renovacion_oro/{id}','RenovacionOroController@edit')->name('detalles_contrato/renovacion_oro/');
+Route::post('detalles/renovacion_oro/','RenovacionOroController@store')->name('detalles.renovacion_oro');
+Route::get('detalles_contrato/vista_oro/{id}','OroController@show')->name('detalles_contrato/vista_oro/');
 
+
+
+Route::resource('contrato/carro','CarroController');
 
 
 Route::resource('reportes/tiendas','PDFTiendaController');

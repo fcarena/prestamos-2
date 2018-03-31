@@ -28,7 +28,7 @@
 					<td>{{ $cat->id}}</td>
 					<td>{{ $cat->contratos_codigo}}</td>
 					<td>{{ $cat->tipo_movimiento}}</td>
-					<td>{{ $cat->tiendas_id}}</td>
+					<td>{{ $cat->tienda}}</td>
 					<td>{{ $cat->monto}}</td>
 					<td>
 						<a href="{{URL::action('CajaIngresosController@edit',$cat->id)}}"><button class="btn btn-info">Editar</button></a>
