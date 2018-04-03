@@ -16,7 +16,6 @@ class CreateContratosTable extends Migration
             $table->increments('id');
             $table->integer('codigo')->unique();
             $table->integer('dni');
-            $table->string('nombre');
             $table->integer('tiendas_id')->unsigned();
             $table->foreign('tiendas_id')->references('id')->on('tiendas');
             $table->date('fecha_inicio');

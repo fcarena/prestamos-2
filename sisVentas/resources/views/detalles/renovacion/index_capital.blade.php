@@ -69,7 +69,7 @@
 			</div>
 		</div>
 		
-		{!! Form::open(array('url'=>'contrato/renovacion','method'=>'POST')) !!} 
+		{!! Form::open(array('url'=>'contrato/abonar','method'=>'POST')) !!} 
 		{{ Form::token() }}
 	
 		<div class="row">
@@ -115,8 +115,8 @@
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
-					<label for="interes">INTERES</label> 
-					<input type="text" name="interes" id="interes" class="form-control" value="{{ $contrato->interes }}" readonly="readonly">
+					<label for="interes">TAZACION</label> 
+					<input type="text" name="tazacion" id="tazacion" class="form-control" value="{{ $contrato->tazacion }}" readonly="readonly">
 				</div>
 			</div>
 		
@@ -126,7 +126,7 @@
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Historial de Pagos</h3>
+			<h3>Historial de Abonos</h3>
 		</div>
 	</div>
 	
@@ -144,7 +144,7 @@
 						<th>T. Mora</th>
 						<th>T. Pagado</th>
 					</thead>
-					@foreach ($contrato_renovacion as $filas)
+					@foreach ($contrato_abonos as $filas)
 					<tbody>
 						<th>{{ $filas->fecha_renovacion }}</th>
 						<th>{{ $filas->fecha_mes }}</th>
@@ -162,92 +162,40 @@
 		</div>
 	</div>
 	
-	
-	@if ($contrato->estatus != 'Cancelado')
-	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Pagos</h3>
+			<h3>Abonar a Capital</h3>
 		</div>
 	</div>
+	
+	@if ($contrato->estatus != 'Cancelado' && $total_interes == 0)
 		
 	<div class="panel-body panel panel-primary">
-	<div class="row">
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			<table id="detalles" class="table table-striped table-bordered table-hover dataTable">
-				<thead style="background-color: #A9D0F5">
-					<th>Pagar</th>
-					<th>Intereses</th>
-					<th>Total</th>
-				</thead>
-				<tbody>
-					<th><input type="checkbox" id="check_interes"></th>
-					<th>Interes al {{ $fechas["fecha_actual"] }}</th>
-					<th>{{ number_format($total_interes, 2) }}</th>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			<table id="detalles_M"
-				class="table table-striped table-bordered table-hover dataTable">
-				<thead style="background-color: #A9D0F5">
-					<th>Pagar</th>
-					<th>Interes Mora</th>
-					<th>Total</th>
-				</thead>
-				<tbody>
-					<th><input type="checkbox" id="check_mora"></th>
-					<th>Interes de Mora al {{ $fechas["fecha_actual"] }}</th>
-					<th>{{ number_format($total_mora, 2) }}</th>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	
-	<input type="hidden" name="total_interes" id="total_interes" class="form-control" value="{{ $total_interes }}">
-	<input type="hidden" name="total_mora" id="total_mora" class="form-control" value="{{ $total_mora }}"> 
-	<input type="hidden" name="contratos_codigo" id="contratos_codigo" class="form-control" value="{{ $contrato->codigo }}">
-	<input type="hidden" name="contratos_id" id="contratos_id" class="form-control" value="{{ $contrato->id }}">
-	<input type="hidden" name="tiendas_id" id="tiendas_id" class="form-control" value="{{ $contrato->tiendas_id }}">
-	
-	@if ($total_interes > 0)
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<div class="form-group">
-			
-				<div class="input-group">
-				<div class="input-group-addon">TOTAL A PAGAR</div>
-					<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ number_format(0,2) }}">
-					<span class="input-group-btn">
-						<button type="submit" name="btn_renovar" class="btn btn-primary" value="1">Pagar Interes/Mora</button>
-					</span>
+		<input type="hidden" name="total_interes" id="total_interes" class="form-control" value="{{ $total_interes }}">
+		<input type="hidden" name="total_mora" id="total_mora" class="form-control" value="{{ $total_mora }}"> 
+		<input type="hidden" name="contratos_codigo" id="contratos_codigo" class="form-control" value="{{ $contrato->codigo }}">
+		<input type="hidden" name="contratos_id" id="contratos_id" class="form-control" value="{{ $contrato->id }}">
+		<input type="hidden" name="tiendas_id" id="tiendas_id" class="form-control" value="{{ $contrato->tiendas_id }}">
+		
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+				
+					<div class="input-group">
+					<div class="input-group-addon">TOTAL A PAGAR</div>
+						<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ $contrato->tazacion }}">
+						<span class="input-group-btn">
+							<button type="submit" name="btn_abonar" class="btn btn-primary" value="1">Abonar Capital</button>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	@endif
-	
-	@if ($total_interes == 0)
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<div class="form-group">
-			
-				<div class="input-group">
-				<div class="input-group-addon">TOTAL A PAGAR</div>
-					<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ $contrato->tazacion }}">
-					<span class="input-group-btn">
-						<button type="submit" name="btn_cancelar" class="btn btn-primary" value="1">Cancelar Contrato</button>
-					</span>
-				</div>
-			</div>
-		</div>
+		
 	</div>
 	@endif
 	
 	</div>
-	
-	@endif
 	{!! Form::close() !!}
 
 @push ('scripts')

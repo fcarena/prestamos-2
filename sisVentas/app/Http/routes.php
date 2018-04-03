@@ -44,7 +44,10 @@ Route::get('contrato','ContratoController@index');
 Route::get('contrato/nuevo','ContratoController@create');
 Route::post('contrato/nuevo','ContratoController@store');
 Route::get('contrato/renovacion/{id}','RenovacionController@edit')->name('contrato/renovacion/');
-Route::post('contrato/renovacion','RenovacionController@store')->name('contrato.renovacion');
+Route::post('contrato/renovacion','RenovacionController@store')->name('contrato/renovacion');
+
+Route::get('contrato/abonar/{id}','RenovacionController@editCapital')->name('contrato/abonar/');
+Route::post('contrato/abonar','RenovacionController@storeCapital')->name('contrato/abonar');
 
 
 

@@ -4,15 +4,14 @@ namespace sisVentas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ContratoRenovacionOro extends Model
+class ContratosAbonos extends Model
 {
-	
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'contratos_renovacionesoro';
+	protected $table = 'contratos_abonos';
 	
 	/**
 	 * The attributes that are mass assignable.
@@ -30,12 +29,10 @@ class ContratoRenovacionOro extends Model
 			'total_pagado',
 	];
 	
-	public function getRenovacionesxContratooro($codigo) {
-		$consulta = ContratoRenovacionOro::where('contratos_codigo', $codigo)
+	public function getAbonosCapitalxContrato($codigo) {
+		$consulta = ContratosAbonos::where('contratos_codigo', $codigo)
 		->get();
-		
+	
 		return $consulta;
 	}
-	
 }
-

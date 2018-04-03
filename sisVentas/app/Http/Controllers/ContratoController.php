@@ -73,15 +73,7 @@ class ContratoController extends Controller
 	    	$interes		=	$request->get('interes');
 	    	$subtotal		=	$request->get('subtotal');
 	    	$total			=	$request->get('total');
-		
-		$caja_egresos= new caja_egresos;
-        $caja_egresos->contrato_codigo=$request->get('codigo');
-        $caja_egresos->tienda=$request->get('tiendas_id');
-        $caja_egresos->tipo_movimiento='Egresos Por Electro';
-        $caja_egresos->monto=$tazacion[0];
-        $caja_egresos->save();
-	   
-	    	
+			
 	    	$cont=0;
 	    	while ( $cont <= 0 ){
 	    	
@@ -102,20 +94,18 @@ class ContratoController extends Controller
 	    		
 	    		$cont = $cont + 1;
 	    	}
+	    	
+	    	// Registrar Movimientos de Caja
+	    	$caja_egresos= new caja_egresos;
+	    	$caja_egresos->contrato_codigo=$request->get('codigo');
+	    	$caja_egresos->tienda=$request->get('tiendas_id');
+	    	$caja_egresos->tipo_movimiento='Egresos Por Electro';
+	    	$caja_egresos->monto=$tazacion[0];
+	    	$caja_egresos->save();
+	    	
 	    });
-
 
 		return redirect('contrato');
 	}
 	
-	public function show($id) {
-		$detalle = DB::table ( 'contrato as co' )->join ( 'persona as per', 'per.dni', '=', 'co.dni' )->join ( 'categoria as cat', 'cat.nombre', '=', 'co.categoria' )->join ( 'detalle_contrato as dc', 'dc.codigo', '=', 'co.codigo' )->select ( 'co.codigo', 'co.nombre', 'dc.descripcion', 'dc.tazacion', 'co.estatus', 'co.id' )->where ( 'co.codigo', '=', $id )->first ();
-		
-		$detalled = DB::table ( 'detalle_contrato as dc' )->join ( 'contrato as co', 'dc.codigo','=','co.codigo')
-            ->select('co.codigo','co.nombre','dc.descripcion','dc.tazacion','co.estatus','dc.id')
-            ->where('dc.codigo','=',$id)->get();
-
-            return view("contrato.nuevo.show",["detalle"=>$detalle,"detalled"=>$detalled]);
-    }
-  
 }

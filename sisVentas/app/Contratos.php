@@ -10,13 +10,9 @@ class Contratos extends Model
 
     protected $primaryKey='id';
 
-    public $timestamps=false;
-
-
     protected $fillable = [
             'codigo',
             'dni',
-            'nombre',
             'tiendas_id',
             'fecha_inicio',
             'fecha_mes',
@@ -31,9 +27,14 @@ class Contratos extends Model
     
     // Obtener Todos los Contrato
     public function getContratos() {
-    	$consulta = Contratos::join('contratos_detalles', 'contratos_detalles.contratos_codigo', '=', 'contratos.codigo' )
-    	->select ('contratos.*', 'contratos_detalles.*')
-    	->get();
+    	$consulta = Contratos::join('personas', 'personas.dni', '=', 'contratos.dni')
+	    	->join('tiendas', 'tiendas.id', '=', 'contratos.tiendas_id')
+	    	->join('categorias', 'categorias.id', '=', 'contratos.categorias_id')
+	    	->select('tiendas.nombre as tiendas_nombre',
+    				'categorias.nombre as categorias_nombre', 'categorias.descripcion as categorias_descripcion',
+    				'categorias.interes as categorias_interes', 'categorias.mora as categorias_mora',
+	    			'personas.*', 'contratos.*')
+    		->paginate(10);
     	 
     	return $consulta;
     }
@@ -42,32 +43,36 @@ class Contratos extends Model
     public function getContratosxPalabrasClaves($palabra) {
     	
     	if (empty($palabra)) {
-    		$consulta = Contratos::join('contratos_detalles', 'contratos_detalles.contratos_codigo', '=', 'contratos.codigo' )
-    		->select ('contratos_detalles.*', 'contratos.*')
-    		->paginate(5);
+    		$consulta = Contratos::join('personas', 'personas.dni', '=', 'contratos.dni')
+	    	->join('tiendas', 'tiendas.id', '=', 'contratos.tiendas_id')
+	    	->join('categorias', 'categorias.id', '=', 'contratos.categorias_id')
+	    	->select('tiendas.nombre as tiendas_nombre',
+    				'categorias.nombre as categorias_nombre', 'categorias.descripcion as categorias_descripcion',
+    				'categorias.interes as categorias_interes', 'categorias.mora as categorias_mora',
+	    			'personas.*', 'contratos.*')
+    		->paginate(10);
     		
     		return $consulta;
     	}
     	
-    	$consulta = Contratos::join('contratos_detalles', 'contratos_detalles.contratos_codigo', '=', 'contratos.codigo' )
+    	$consulta = Contratos::join('personas', 'personas.dni', '=', 'contratos.dni')
+    	->join('tiendas', 'tiendas.id', '=', 'contratos.tiendas_id')
+    	->join('categorias', 'categorias.id', '=', 'contratos.categorias_id')
+    	->select('tiendas.nombre as tiendas_nombre',
+    			'categorias.nombre as categorias_nombre', 'categorias.descripcion as categorias_descripcion',
+    			'categorias.interes as categorias_interes', 'categorias.mora as categorias_mora',
+	    		'personas.*', 'contratos.*')
     	->where('contratos.codigo', 'LIKE', '%'.$palabra.'%')
-    	->orWhere('contratos_detalles.descripcion', 'LIKE', '%'.$palabra.'%')
-    	->select ('contratos.*', 'contratos_detalles.*')
-    	->paginate(5);
-    	
-    	return $consulta;
-    }
-    
-    // Obtener Detalles de Contrato
-    public function getContatoyDetallesContrato($id) {
-    	$consulta = Contratos::where('contratos.id', $id)
-    	->join ('contratos_detalles', 'contratos_detalles.contratos_codigo', '=', 'contratos.codigo')
-    	->join ('personas', 'personas.dni', '=', 'contratos.dni')
-    	->join ('tiendas', 'tiendas.id', '=', 'contratos.tiendas_id')
-    	->select ('contratos_detalles.*', 'contratos.*', 
-    			'personas.nombre', 'personas.apellido',
-    			'tiendas.nombre as tiendas_nombre')
-    	->first();
+    	->orWhere('contratos.dni', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('contratos.fecha_inicio', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('contratos.fecha_mes', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('contratos.estatus', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('personas.nombre', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('personas.apellido', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('tiendas.nombre', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('categorias.nombre', 'LIKE', '%'.$palabra.'%')
+    	->orWhere('categorias.descripcion', 'LIKE', '%'.$palabra.'%')
+   		->paginate(10);
     	
     	return $consulta;
     }

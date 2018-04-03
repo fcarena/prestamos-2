@@ -4,26 +4,20 @@ namespace sisVentas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class caja_ingresos extends Model
+class CajaIngresos extends Model
 {
     protected $table='caja_ingresos';
 
     protected $primaryKey='id';
 
-    public $timestamps=false;
-
-
     protected $fillable =[
-    	
-			
             'id',
-            'contrato_codigo',
+            'contratos_codigo',
             'tipo_movimiento',
-            'tienda',
+            'tiendas_id',
             'monto',
-        
-
     ];
+    
     protected $guarded =[
 
     ];
