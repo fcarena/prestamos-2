@@ -33,6 +33,7 @@ class oro extends Model
   // Obtener Todos los Contrato
     public function getContratosoro() {
         $consulta = oro::join('detalle_oro', 'detalle_oro.codigo', '=', 'oro.codigo' )
+        ->where('oro.estatus','!=','Cancelado')
         ->select ('oro.*', 'detalle_oro.*')
         ->get();
          
@@ -44,7 +45,9 @@ class oro extends Model
         
         if (empty($palabra)) {
             $consulta = Contratos::join('contratos_detalles', 'contratos_detalles.contratos_codigo', '=', 'contratos.codigo' )
+            ->where('contratos.estatus','!=','Cancelado')
             ->select ('contratos_detalles.*', 'contratos.*')
+            
             ->paginate(5);
             
             return $consulta;
@@ -61,7 +64,8 @@ class oro extends Model
     
     // Obtener Detalles de Contrato_oro
     public function getContatoyDetallesContratooro($id) {
-        $consulta = oro::where('oro.id', $id)
+        dd("d");
+        $consulta = oro::where('oro.codigo', $id)
         ->join ('detalle_oro', 'detalle_oro.codigo', '=', 'oro.codigo')
         ->join ('personas', 'personas.dni', '=', 'oro.dni')
         ->join ('tiendas', 'tiendas.nombre', '=', 'oro.tienda')

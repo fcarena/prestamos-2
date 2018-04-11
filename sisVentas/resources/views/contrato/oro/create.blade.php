@@ -32,7 +32,7 @@
                          <label for="dni">DNI</label>
                          <select  name="dni" class="form-control selectpicker" id="bdni" data-live-search="true">
                                @foreach ($personas as $persona)
-                               <option value="{{$persona->dni}}_{{$persona->nombre}}">{{$persona->tipo_dni}}:{{$persona->dni}}
+                               <option readonly="readonly" value="{{$persona->dni}}_{{$persona->nombre}}">{{$persona->tipo_dni}}:{{$persona->dni}}
                                
                                </option>
                                @endforeach
@@ -44,7 +44,7 @@
                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <div class="form-group">
                                     <label for="nombre">Nombres</label>
-                                    <input type="text" name="nombre"  id="nombre" class="form-control" placeholder="Nombres...">
+                                    <input readonly="readonly" type="text" name="nombre"  id="nombre" class="form-control" placeholder="Nombres...">
                               </div>
                          </div>
 
@@ -52,7 +52,7 @@
 
                          <div class="form-group">
                                <label for="tienda">Tienda</label>
-                               <select  name="tienda" class="form-control" id="tienda" data-live-search="true">
+                               <select readonly="readonly" name="tienda" class="form-control" id="tienda" data-live-search="true">
                                @foreach ($tiendas as $tienda)
                                <option value="{{$tienda->nombre}}">{{$tienda->nombre}}
                                </option>
@@ -69,14 +69,14 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="form-group">
                          <label for="fecha_inicio">Fecha de Reguistro</label>
-                              <input type="text" class="form-control"  name="fecha_inicio" id="fecha_inicio" required value="{{old('fecha_inicio',$now->format('d - M - Y ' ))}}">
+                              <input readonly="readonly" type="text" class="form-control"  name="fecha_inicio" id="fecha_inicio" required value="{{old('fecha_inicio',$now->format('d - M - Y ' ))}}">
                    </div>
 
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="form-group">
                          <label for="fecha_mes">Fecha de Pago</label>
-                         <input type="text"  class="form-control"  name="fecha_mes" id="fecha_mes" value="{{old('fecha_mes',$now->addDay(31)->format('  d - M - Y'))}}">
+                         <input readonly="readonly" type="text"  class="form-control"  name="fecha_mes" id="fecha_mes" value="{{old('fecha_mes',$now->addDay(31)->format('  d - M - Y'))}}">
                    </div>
             </div>
 
@@ -84,7 +84,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="form-group">
                          <label for="fecha_final">Fecha de Mora</label>
-                         <input type="text"  class="form-control"  name="fecha_final" id="fecha_final" value="{{old('fecha_final',$now->addDay(5)->format(' d - M - Y'))}}">
+                         <input readonly="readonly" type="text"  class="form-control"  name="fecha_final" id="fecha_final" value="{{old('fecha_final',$now->addDay(5)->format(' d - M - Y'))}}">
                    </div>
             </div>
  </div>

@@ -95,13 +95,14 @@
                  <table  id="detalles" class="table table-striped table-bordered table-hover">
                   <thead style="background-color: #ff8000">
                         
-                        
+                        <th>ID</th>
                         <th>Descripcion</th>
                         <th>OBSERVACION</th>
                         <th>TAZACION</th>
                         
                         </thead>
                         <tfoot>
+                        <th>{{ $detalle->id}}</th>
                         <th>{{ $detalle->descripcion}}</th>
                         <th>{{ $detalle->obsv}}</th>
                         <th>{{ $detalle->tazacion}}</th>
@@ -116,7 +117,9 @@
                  </table> 
             </div>
             <center>
-      <th><button  class="btn btn-primary" type="submit">IMPRIMIR</button></th>
+      
+                        <a target="_blanck" href="{{ route("detalles_contrato/reporte_oro/",$detalle->id) }}" ><button class="btn btn-info">Imprimir</button></a>
+                              
       </center>
       </div>
                               

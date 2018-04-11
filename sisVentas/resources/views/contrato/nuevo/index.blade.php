@@ -18,31 +18,34 @@
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-condensed table-hover">
 				<thead>
+					<th>ID</th>
 					<th>CODIGO</th>
 					<th>DNI</th>
-					<th>NOMBRES Y APELLIDOS</th>
-					<th>DESCRIPCION</th>
-					<th>FECHA I.</th>
-					<th>FECHA F.</th>
+					<th>NOMBRE</th>
+					<th>F.CONTRATO</th>
 					<th>ESTATUS</th>
-					<th class="text-center">OPCIONES</th>
+					<th>OPCIONES</th>
+					
 				</thead>
                @foreach ($contrato as $cat)
 				<tr>
+					<td>{{ $cat->id }}</td>
 					<td>{{ $cat->codigo }}</td>
 					<td>{{ $cat->dni }}</td>
-					<td>{{ $cat->nombre }}, {{ $cat->apellido }}</td>
-					<td>{{ $cat->categorias_descripcion }}</td>
+					<td>{{ $cat->nombre}}</td>
 					<td>{{ $cat->fecha_inicio }}</td>
-					<td>{{ $cat->fecha_mes }}</td>
 					<td>{{ $cat->estatus }}</td>
-					<td class="col-xs-3">
-						<a href="{{ route("contrato/abonar/", $cat->codigo) }}">
-                     		<button class="btn btn-info">Abonar Cap.</button>
-                     	</a>
-                     	<a href="{{ route("contrato/renovacion/", $cat->codigo) }}" >
-                     		<button class="btn btn-warning">Renovar/Canc.</button>
-                     	</a>
+					<td>
+                     
+                     	<a href="{{ route("detalles_contrato/vista_oro/",$cat->id) }}" ><button class="btn btn-info">Ver</button></a>
+				
+                     <a href="{{ route("contrato/renovacion/",$cat->codigo) }}" ><button class="btn btn-warning">Renovar</button></a>
+
+                     	<a  href="{{ route("contrato/abonar/", $cat->codigo) }}"><button class="btn btn-danger">Abonar</button></a>
+                     	
+                     	<a href="{{ route("cancelar/elec/",$cat->codigo) }}" ><button class="btn btn-info">Cancelar</button></a>
+
+
 					</td>
 				</tr>
 				@endforeach

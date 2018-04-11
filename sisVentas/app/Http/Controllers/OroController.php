@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use sisVentas\Http\Requests;
 
 use sisVentas\oro;
+use sisVentas\config\app;
 use sisVentas\detalleoro;
 use sisVentas\caja_egresos;
 use sisVentas\ContratoRenovacionOro;
@@ -40,10 +41,13 @@ class OroController extends Controller
             $query=trim($request->get('searchText'));
             $oro=DB::table('oro as o')
             ->join('detalle_oro as do','do.codigo','=','o.codigo')
+            ->where('o.estatus','!=','Cancelado')
             ->select('o.codigo','o.nombre','do.descripcion','do.tazacion','o.estatus','o.id','o.dni','do.peso_neto','do.interes','do.total')
             ->where('o.codigo','LIKE','%'.$query.'%')
+
             ->orderBy('o.id','decs')
             ->paginate(5);
+            
             return view('contrato.oro.index',["oro"=>$oro,"searchText"=>$query]);
         }
     }
@@ -99,7 +103,7 @@ try {
       
         $caja_egresos= new caja_egresos;
         $caja_egresos->contrato_codigo=$request->get('codigo');
-        $caja_egresos->tienda=$request->get('tiendas_id');
+        $caja_egresos->tienda=$request->get('tienda');
         $caja_egresos->tipo_movimiento='Egresos Por Oro';
         $caja_egresos->monto=$tazacion[0];
         $caja_egresos->save();
@@ -154,6 +158,30 @@ catch (Exception $e) {
             return view("contrato.oro.show",["detalle"=>$detalle]);
 
     }
+        public function impre($id)
+    {
+
+    $data = $this->getData();
+     $date = date('Y-m-d');
+      $invoice = "2222";
+    $vista="reportes.oro.index";
+    $view = \View::make($vista, compact('data', 'date', 'invoice'))->render();      
+    $pdf= \App::make('dompdf.wrapper');
+    $pdf->loadHTML($view);
+    return $pdf->stream('arch.pdf');
+
+    }
+ public function getData() 
+    {
+        $data =  [
+            'quantity'      => '1' ,
+            'description'   => 'some ramdom text',
+            'price'   => '500',
+            'total'     => '500'
+        ];
+        return $data;
+    }
+
 public function edit($id)
 {
 
@@ -191,6 +219,7 @@ public function edit($id)
         
         $dias_transcurridos = $this->calcularDias($fecha_actual, $fecha_inicio);
         $total_interes = $this->calcularInteres($dias_transcurridos, $oro);
+        
         $total_mora = $this->calcularMora($dias_transcurridos, $oro);
         
         return view ('detalles.renovacion_oro.index', compact('oro', 'contratos_renovacionesoro', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
@@ -215,9 +244,10 @@ public function calcularDias($fecha_mayor, $fecha_menor)
     
     public function calcularInteres($dias, $detalles_contrato) 
     {
+       
         $total_interes = 0;
         
-        if ($dias <= 35) {
+        if ($dias >= 1 && $dias <= 35) {
             $total_interes = $detalles_contrato->interes;
         }
         

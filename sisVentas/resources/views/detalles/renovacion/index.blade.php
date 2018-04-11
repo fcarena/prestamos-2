@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<center>
-			<h2>Renovacion del Contrato de ORO</h2></center>
+			<h2>Renovacion de Contratos Electrodomestico </h2></center>
 
 			@if (count($errors)>0)
 			<div class="alert alert-danger">
@@ -24,65 +24,59 @@
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
 					<label for="codigo">NUMERO DE CONTRATO</label> 
-					<select  readonly="readonly" name="codigo" class="form-control selectpicker" id="codigo" data-live-search="false">
-						<option selected="selected">{{ $oro->codigo }}</option>
+					<select name="codigo" class="form-control selectpicker" id="codigo" data-live-search="false">
+						<option selected="selected">{{ $contrato->codigo }}</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="nombre">NOMBRES</label> <input readonly="readonly" type="text"
-						name="nombre" id="nombre" class="form-control" value="{{ $oro->nombre }}, {{ $oro->apellido }}">
+					<label for="nombre">NOMBRES</label> <input type="text"
+						name="nombre" id="nombre" class="form-control" value="{{ $contrato->nombre }}, {{ $contrato->apellido }}" readonly="readonly">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 				<div class="form-group">
-					<label for="tienda">TIENDA</label> <input readonly="readonly" type="text" name="tienda" id="tienda" class="form-control" value="{{ $oro->tiendas_nombre }}">
+					<label for="tienda">TIENDA</label> <input type="text" name="tienda" id="tienda" class="form-control" value="{{ $contrato->tiendas_nombre }}" readonly="readonly">
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
 					<label for="estatus">ESTATUS</label> 
-					<input readonly="readonly" type="text" name="estatus" id="estatus" class="form-control" value="{{ $oro->estatus }}">
+					<input type="text" name="estatus" id="estatus" class="form-control" value="{{ $contrato->estatus }}" readonly="readonly">
 				</div>
 			</div>
-			</div>
+		</div>
 			
-			<div class="row">
+		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
 					<label for="descripcion">DESCRIPCION DEL ARTICULO</label> 
-					<input readonly="readonly" type="descripcion" name="total" id="descripcion" class="form-control" value="{{ $oro->descripcion }}">
+					<input type="descripcion" name="total" id="descripcion" class="form-control" value="{{ $contrato->descripcion }}" readonly="readonly">
 				</div>
 			</div>
-			<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+			<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
 				<div class="form-group">
 					<label for="obsv">OBSERVACION DEL ARTICULO</label> 
-					<input readonly="readonly" type="obsv" name="total" id="obsv" class="form-control" value="{{ $oro->obsv }}">
-				</div>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-				<div class="form-group">
-					<label for="peso_neto">PESO NETO</label> 
-					<input readonly="readonly" type="obsv" name="total" id="peso_neto" class="form-control" value="{{ $oro->peso_neto }}">
+					<input type="obsv" name="total" id="obsv" class="form-control" value="{{ $contrato->obsv }}" readonly="readonly">
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
 					<label for="cover">COVER</label> 
-					<inputreadonly="readonly"  type="cover" name="total" id="cover" class="form-control" value="{{ $oro->cover }}">
+					<input type="cover" name="total" id="cover" class="form-control" value="{{ $contrato->cover }}" readonly="readonly">
 				</div>
 			</div>
 		</div>
 		
-		{!! Form::open(array('url'=>'detalles/renovacion_oro','method'=>'POST')) !!} 
+		{!! Form::open(array('url'=>'contrato/renovacion','method'=>'POST')) !!} 
 		{{ Form::token() }}
 	
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
 					<label for="fecha_renovacion">Fecha Contrato</label> 
-					<div id="fecha_renovacion" class="input-group date" data-date="" data-date-format="yyyy-M-dd">
+					<div id="" class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
 						<input type="text" name="fecha_renovacion" class="form-control" value="{{ $fechas['fecha_inicio'] }}" readonly="readonly" />
 						<span class="input-group-addon add-on">
 							<span class="fa fa-calendar"></span>
@@ -93,7 +87,7 @@
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
 					<label for="fecha_mes">Fechas de Pago</label> 
-					<div id="fecha_mes" class="input-group date" data-date="" data-date-format="yyyy-M-dd">
+					<div id="" class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
 						<input type="text" name="fecha_mes" class="form-control" value="{{ $fechas['fecha_mes'] }}" readonly="readonly"/>
 						<span class="input-group-addon add-on">
 							<span class="fa fa-calendar"></span>
@@ -103,8 +97,8 @@
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="">Fecha de Mora</label> 
-					<div id="fecha_final" class="input-group date" data-date="" data-date-format="d-M-y">
+					<label for="fecha_final">Fecha de Mora</label> 
+					<div id="" class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
 						<input type="text" name="fecha_final" class="form-control" value="{{ $fechas['fecha_final'] }}" readonly="readonly"/>
 						<span class="input-group-addon add-on">
 							<span class="fa fa-calendar"></span>
@@ -116,13 +110,13 @@
 			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
 				<div class="form-group">
 					<label for="dias">DIAS</label> 
-					<input readonly="readonly" type="text" name="dias" id="dias" class="form-control" value="{{ $dias_transcurridos }}">
+					<input type="text" name="dias" id="dias" class="form-control" value="{{ $dias_transcurridos }}" readonly="readonly">
 				</div>
 			</div>
-			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 				<div class="form-group">
 					<label for="interes">INTERES</label> 
-					<input readonly="readonly" type="text" name="interes" id="interes" class="form-control" value="{{ $oro->interes }}">
+					<input type="text" name="interes" id="interes" class="form-control" value="{{ $contrato->interes }}" readonly="readonly">
 				</div>
 			</div>
 		
@@ -150,7 +144,7 @@
 						<th>T. Mora</th>
 						<th>T. Pagado</th>
 					</thead>
-					@foreach ($contratos_renovacionesoro as $filas)
+					@foreach ($contrato_renovacion as $filas)
 					<tbody>
 						<th>{{ $filas->fecha_renovacion }}</th>
 						<th>{{ $filas->fecha_mes }}</th>
@@ -167,6 +161,7 @@
 	
 		</div>
 	</div>
+	
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -188,8 +183,6 @@
 					<th>Interes al {{ $fechas["fecha_actual"] }}</th>
 					<th>{{ number_format($total_interes, 2) }}</th>
 				</tbody>
-
-
 			</table>
 		</div>
 
@@ -210,36 +203,35 @@
 		</div>
 	</div>
 	
+	<input type="hidden" name="total_interes" id="total_interes" class="form-control" value="{{ $total_interes }}">
+	<input type="hidden" name="total_mora" id="total_mora" class="form-control" value="{{ $total_mora }}"> 
+	<input type="hidden" name="contratos_codigo" id="contratos_codigo" class="form-control" value="{{ $contrato->codigo }}">
+	<input type="hidden" name="contratos_id" id="contratos_id" class="form-control" value="{{ $contrato->id }}">
+	<input type="hidden" name="tiendas_id" id="tiendas_id" class="form-control" value="{{ $contrato->tiendas_id }}">
+	
+	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="form-group">
 			
 				<div class="input-group">
 				<div class="input-group-addon">TOTAL A PAGAR</div>
-					<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ number_format(00.00, 2) }}">
+					<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ number_format(0,2) }}">
 					<span class="input-group-btn">
-						<button type="submit" class="btn btn-primary">Pagar</button>
+						<button type="submit" name="btn_renovar" class="btn btn-primary" value="1">Pagar Interes/Mora</button>
 					</span>
 				</div>
-				<input type="hidden" name="total_interes" id="total_interes" class="form-control" value="{{ $total_interes }}">
-				<input type="hidden" name="total_mora" id="total_mora" class="form-control" value="{{ $total_mora }}"> 
-				<input type="hidden" name="contratos_codigo" id="contratos_codigo" class="form-control" value="{{ $oro->codigo }}">
-				<input type="hidden" name="contratos_id" id="contratos_id" class="form-control" value="{{ $oro->id }}">
 			</div>
 		</div>
 	</div>
-	</div>
+	
+	
 	{!! Form::close() !!}
 
-	@push ('scripts')
+@push ('scripts')
 
 <script>
 $(document).ready(function(){
-	$('#bt').click(function(){
-		//calcular_interes();
-		//agregarm();
-	});
-
 	$('#check_interes').click(function(){
 		if ($("#dias").val() > 0){
 			if ($('#check_interes').is(":checked")){
@@ -275,110 +267,7 @@ $(document).ready(function(){
 	});
 	
 });
+</script>
 
-dia=0;
-totalf=0;
-cont=0;     
-$("#codigo").change(mostarvalores);
-
-function mostarvalores()
-{
-      datos=document.getElementById('codigo').value.split('_');
-      $("#dni").val(datos[1]);
-      $("#nombre").val(datos[2]);
-      $("#tienda").val(datos[3]);
-      $("#fecha_inicio").val(datos[4]);
-      $("#fecha_mes").val(datos[5]);
-      $("#fecha_final").val(datos[6]);
-      $("#estatus").val(datos[7]);
-      $("#tazacion").val(datos[8]);
-      $("#interes").val(datos[9]);
-      $("#total").val(datos[10]);
-      $("#descripcion").val(datos[11]);
-      $("#obsv").val(datos[12]);
-      $("#cover").val(datos[13]);
-      $("#mora").val(datos[14]);
-      
-      
-}
-
-function agregarm(){
-
-  cont=0;
-
- descripcion=$("#descripcion").val();
- tazacion=$("#tazacion").val();
- interes=$("#interes").val();
- fecha_inicio=$("#fecha_inicio").val();
- fecha_dia=$("#fecha_dia").val();
- dias=$("#dias").val();
-
-
-      if( descripcion!="" && tazacion!="" && interes!="" && fecha_inicio!="" && dias!="" && cont<"1")
-      {
-                  mora=0.0;
-                  
-
-            if (dias>=30 && dias<36) {
-
-                        xdia=(interes/30);
-                        interes=xdia*dias;
-                         totalf=(parseFloat(interes)+parseFloat(tazacion));
-                  
-            }
-            if (dias>=36 && dias<=66) {
-                        interes=(interes*2);
-                        xdia=(interes/30);
-                        mora=(interes*0.25);
-                        cxdia=(xdia*dias);
-                         totalf=(parseFloat(interes)+parseFloat(mora)+parseFloat(cxdia)+parseFloat(tazacion));
-                               
-            }
-           
-             if (dias>=66) {
-                        alert("Articulo en Vitrina");
-                               
-            }
-          
-                 
-         
-            var fila='<tr class="selected" id="fila'+cont+'"><td> <button type="submit" class="btn btn-danger">Pagar</button></td><td><input type="hidden" name="descripcion[]" value="'+descripcion+'">'+descripcion+'</td><td><input type="hidden" name="mora[]" value="'+mora+'">'+mora+'</td></tr>';
-                  cont++;
-                  evaluar();
-                  $('#detalles_M').append(fila);
-                  
-
-
-                  
-                                      
-                        
-    }
-      else
-      {
-            
-
-      }
-      
-}
-  
-function eliminar(index)
-{
-      
-      $("#fila" + index).remove();
-      
-      evaluar();
-}
-
-function evaluar()      
-      {
-            if(totalf>0)
-             $("#guardar").show();
-      }
-
-      {
-            $("#guardar").hide();
-      }
-
-      </script>
-
-		@endpush {!!Form::close()!!} @endsection
+@endpush {!!Form::close()!!} 
+@endsection

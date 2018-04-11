@@ -134,36 +134,22 @@
               </ul>
               </ul>      
 
+               
                 <ul class="treeview-menu">
                 <li class="treeview">
-              <a href="#">
+              <a href="/vitrina">
                 <i class="fa fa-plus-square"></i>
-                <span>Abonar al Capital</span>
+                <span>Vitrina</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
-              <ul class="treeview-menu">
-                <li><a href="/detalles/nuevo"><i class="fa fa-circle-o"></i>Electro y Herramientas</a></li>
-                <li><a href="/contrato/nuevo"><i class="fa fa-circle-o"></i>ORO</a></li>
-                <li><a href="/contrato/nuevo"><i class="fa fa-circle-o"></i>CARROS</a></li>
-               
               </ul>
-              
-              </ul>
-
-                <ul class="treeview-menu">
+               <ul class="treeview-menu">
                 <li class="treeview">
-              <a href="#">
+              <a href="ventas">
                 <i class="fa fa-plus-square"></i>
-                <span>Eviar a Vitrina</span>
+                <span>Ventas</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
-              <ul class="treeview-menu">
-                <li><a href="/detalles/nuevo"><i class="fa fa-circle-o"></i>Electro y Herramientas</a></li>
-                <li><a href="/contrato/nuevo"><i class="fa fa-circle-o"></i>ORO</a></li>
-                <li><a href="/contrato/nuevo"><i class="fa fa-circle-o"></i>CARROS</a></li>
-               
-              </ul>
-              
               </ul>
             </li>
             
@@ -174,7 +160,7 @@
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                 <li><a href="/consultas/personas"><i class="fa fa-circle-o"></i> Ventas </a></li>
+                 
                 <li><a href="/caja/ingresos"><i class="fa fa-circle-o"></i>Ingresos</a></li>
                 <li><a href="/caja/egresos"><i class="fa fa-circle-o"></i>Egresos</a></li>
                 <li><a href="/caja/cierre"><i class="fa fa-circle-o"></i> Cierre de Caja</a></li>
