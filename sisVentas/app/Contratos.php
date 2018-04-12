@@ -16,6 +16,7 @@ class Contratos extends Model
     protected $fillable = [
             'codigo',
             'dni',
+            'nombre',
             'tiendas_id',
             'fecha_inicio',
             'fecha_mes',

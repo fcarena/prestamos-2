@@ -9,6 +9,7 @@ use sisVentas\Http\Requests;
 
 use sisVentas\Contratos;
 use sisVentas\CajaIngresos;
+use sisVentas\cajaCapital;
 use sisVentas\ContratosRenovaciones;
 use sisVentas\ContratosDetalles;
 use sisVentas\ContratosAbonos;
@@ -70,8 +71,8 @@ class CancelarContratoController extends Controller
 		
 		// Consultar Contrato
 		$contrato = $this->contratos_detalles->getContatoyDetallesContrato($request->contratos_codigo)->last();
-		dd($contrato);
-		if ($contrato->estatus != 'Cancelado') {
+	
+		if ($contrato->estatus != 'Cancelado' ) {
 			
 			if ($request->btn_renovar == 1) {
 				if ($request->dias > 0 &&  $request->dias < 65) {
@@ -82,13 +83,19 @@ class CancelarContratoController extends Controller
 							'fecha_final' 		=> Carbon::parse($request->fecha_renovacion)->addDays(65)->format('Y-m-d'),
 
 					];
-
-					$renovacion = $this->registrarRenovacionc($request, $data);
+					DB::transaction(function() use ($request, $data)
+				{
+					// Registrar Cancelación de Contrato
+					$this->registrarRenovacioncp($request, $data);
+			
+					// Actualizar Estatus del Contrato
+					$this->contratos->where('id', $request->contratos_id)->update(['estatus' => 'PreCancelado']);
+				});
+			}
 					
-				}
 			}
 			
-			if ($request->btn_cancelar == 1) {
+			if ($request->btn_cancelar == 1 ) {
 				
 				$data = [
 						'fecha_renovacion' 	=> Carbon::parse($request->fecha_renovacion),
@@ -156,6 +163,33 @@ class CancelarContratoController extends Controller
 		return view ('cancelar.nuevo.index', compact('contrato', 'contrato_renovacion', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
 	}
 	
+	public function registrarRenovacioncp($request, $data = array())
+	{
+		
+		$contratos_renovaciones = new ContratosRenovaciones();
+		$renovacion = $contratos_renovaciones->create([
+				'contratos_codigo'	=>	$request->contratos_codigo,
+				'fecha_renovacion'	=>	$data['fecha_renovacion'],
+				'fecha_mes'			=>	$data['fecha_mes'],
+				'fecha_final'		=>	$data['fecha_final'],
+				'dias'				=>'0',
+				'total_interes'		=>	$request->total_interes,
+				'total_mora'		=>	$request->total_mora,
+				'total_pagado'		=>	$request->total_pagado,
+		]);
+		
+		// Registrar Movimientos de Caja
+		$caja_ingreso = new cajaIngresos();
+		$caja_ingreso->contratos_codigo = $request->get('contratos_codigo');
+		$caja_ingreso->tipo_movimiento = 'Ingresos Por Electro';
+		$caja_ingreso->tiendas_id = $request->get('tiendas_id');
+		$caja_ingreso->monto = $request->get('total_pagado');
+		$caja_ingreso->save();
+		
+		
+		return $renovacion;
+	}
+	
 	public function registrarRenovacionc($request, $data = array())
 	{
 		
@@ -172,12 +206,13 @@ class CancelarContratoController extends Controller
 		]);
 		
 		// Registrar Movimientos de Caja
-		$caja_ingreso = new CajaIngresos();
+		$caja_ingreso = new cajaCapital();
 		$caja_ingreso->contratos_codigo = $request->get('contratos_codigo');
 		$caja_ingreso->tipo_movimiento = 'Ingresos Por Electro';
-		$caja_ingreso->tiendas_id = $request->get('tiendas_id');
+		$caja_ingreso->tienda = $request->get('tiendas_id');
 		$caja_ingreso->monto = $request->get('total_pagado');
 		$caja_ingreso->save();
+		
 		
 		return $renovacion;
 	}
@@ -199,7 +234,7 @@ class CancelarContratoController extends Controller
 		$fecha_actual = Carbon::now();
 
 		
-		if ($contrato->estatus != 'Cancelado') {
+		if ($contrato->estatus != 'Cancelado' && $contrato->estatus != 'PreCancelado'  ) {
 
 			if ($contrato_renovacion->count() == 0) {
 				$fechas = [
@@ -212,7 +247,9 @@ class CancelarContratoController extends Controller
 			
 				$fecha_inicio = Carbon::parse($fechas['fecha_inicio']);
 			
-			}else{
+			}
+
+			else {
 			
 				$fechas = [
 						'fecha_actual' 	=> $fecha_actual->format('Y-m-d'),
@@ -222,13 +259,31 @@ class CancelarContratoController extends Controller
 				];
 			
 				$fecha_inicio = Carbon::parse($fechas['fecha_inicio']);
-			}
 			
+			}
 			$dias_transcurridos = $this->calcularDias($fecha_actual, $fecha_inicio);
 			$total_interes = $this->calcularInteres($dias_transcurridos, $contrato);
 			$total_mora = $this->calcularMora($dias_transcurridos, $contrato);
-				if ($total_interes == 0 && $total_mora == 0) {
+			
+		}
+		
+		if ($contrato->estatus == 'Activo' && $dias_transcurridos==0 ) {
+			
+		
+return view ('cancelar.nuevo.index', compact('contrato', 'contrato_renovacion', 'contrato_abonos', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
+}
+	
+		if ( $contrato->estatus == 'PreCancelado') {
+						$fechas = [
+						'fecha_actual' 	=> $fecha_actual->format('Y-m-d'),
+						'fecha_inicio' 	=> Carbon::parse($contrato_renovacion->last()->fecha_renovacion)->format('Y-m-d'),
+						'fecha_mes' 	=> $contrato_renovacion->last()->fecha_mes,
+						'fecha_final' 	=> $contrato_renovacion->last()->fecha_final
 
+				];
+				$dias_transcurridos=0;
+				$total_interes=0;
+				$total_mora=0;
 				return view ('cancelar.nuevo.index', compact('contrato', 'contrato_renovacion', 'contrato_abonos', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
 			}else {
 				
@@ -236,7 +291,6 @@ class CancelarContratoController extends Controller
 				return redirect("cancelar/renovacionc/$contrato->contratos_codigo")
 				->withErrors("El Presente Contrato Tiene interes y/o mora por cancelar.");
 			}
-		}
 		
 		// Mensaje
 		return redirect("contrato");
@@ -283,9 +337,14 @@ class CancelarContratoController extends Controller
 	{
 		$total_interes = 0;
 		
-		if ($dias > 0 && $dias <= 35) {
+		if ($dias > 0 && $dias <= 30) {
 			$total_interes = $detalles_contrato->interes;
 		}
+		if ($dias > 30 && $dias <= 35) {
+			$interes_diario = ($detalles_contrato->interes)/30;
+			$total_interes = $interes_diario * $dias;
+		}
+		
 		
 		if ($dias > 35 && $dias <= 65) {
 			$interes_diario = ($detalles_contrato->interes)/ 30;

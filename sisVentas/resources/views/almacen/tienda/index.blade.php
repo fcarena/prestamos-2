@@ -1,8 +1,8 @@
 @extends ('layouts.admin')
 @section ('contenido')
 <div class="row">
-	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>Listado de Tiendas </h3>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<CENTER><h1>LISTADO DE TIENDAS </h1></CENTER>
 	</div>
 		@include('almacen.tienda.search')
 		<div class="col-lg-2 col-md-2 col-sm-2 pull-right">

@@ -2,9 +2,9 @@
 @section ('contenido')
 
 <div class="row">
-	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-		<h3>LISTADO DE PERSONAS </h3>
-	</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<CENTER><h1>LISTADO DE CLIENTES </h1>
+</CENTER>	</div>
 		@include('almacen.persona.search')
 		<div class="col-lg-2 col-md-2 col-sm-2 pull-right">
 		<a href="persona/create"><button class="btn btn-success"><i class="fa fa-home"></i>Nuevo</button></a>

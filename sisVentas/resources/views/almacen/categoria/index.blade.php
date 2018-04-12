@@ -2,7 +2,7 @@
 @section ('contenido')
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		<h1>Listado de Categorías </h1>
+		<CENTER><h1>LISTADO DE CATEGORIAS </h1></CENTER>
 	</div>
 
 		@include('almacen.categoria.search')

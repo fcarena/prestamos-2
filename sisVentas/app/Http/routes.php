@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::get('vitrina', 'VitrinaController@index')->name('vitrina');
+Route::get('vitrina/transferir/{id}', 'VitrinaController@edit')->name('vitrina/transferir');
+Route::post('vitrina/transferir/', 'VitrinaController@store')->name('vitrina/transferir/');
+
 
 Route::resource('caja/egresos','CajaEgresosController');
 Route::resource('caja/ingresos','CajaIngresosController');
@@ -38,6 +42,7 @@ Route::resource('almacen/articulos','ArticulosController');
 
 
 Route::resource('almacen/tienda','TiendaController');
+Route::resource('inicio/','InicioController');
 
 
 Route::get('contrato','ContratoController@index');
@@ -45,7 +50,6 @@ Route::get('contrato/nuevo','ContratoController@create');
 Route::post('contrato/nuevo','ContratoController@store');
 Route::get('contrato/renovacion/{id}','RenovacionController@edit')->name('contrato/renovacion/');
 Route::post('contrato/renovacion','RenovacionController@store')->name('contrato/renovacion');
-
 Route::post('cancelar/contrato','CancelarContratoController@store')->name('cancelar/contrato');
 Route::post('cancelar/contratooro','CancelarContratoOroController@store')->name('cancelar/contratooro');
 
@@ -53,7 +57,9 @@ Route::get('contrato/abonar/{id}','RenovacionController@editCapital')->name('con
 Route::post('contrato/abonar','RenovacionController@storeCapital')->name('contrato/abonar');
 
 Route::get('cancelar/renovacionc/{id}','CancelarContratoController@edit')->name('cancelar/renovacionc/');
+
 Route::get('cancelar/oroc/{id}','CancelarContratoOroController@edit')->name('cancelar/oroc/');
+
 
 Route::resource('contrato/oro','OroController');
 Route::get('detalles_contrato/renovacion_oro/{id}','RenovacionOroController@edit')->name('detalles_contrato/renovacion_oro/');
@@ -65,13 +71,11 @@ Route::get('contrato/abonaroro/{id}','RenovacionOroController@editCapital')->nam
 Route::post('contrato/abonaroro','RenovacionOroController@storeCapital')->name('contrato/abonaroro');
 
 Route::get('cancelar/elec/{id}','CancelarContratoController@editCapital')->name('cancelar/elec/');
+
 Route::get('cancelar/oro/{id}','CancelarContratoOroController@editCapital')->name('cancelar/oro/');
 
 Route::resource('contrato/carro','CarroController');
 
-Route::get('vitrina', 'VitrinaController@index')->name('vitrina');
-Route::get('vitrina/transferir/{id}', 'VitrinaController@edit')->name('vitrina/transferir');
-Route::post('vitrina/transferir/', 'VitrinaController@store')->name('vitrina/transferir/');
 
 Route::resource('reportes/tiendas','PDFTiendaController');
 Route::resource('detalles/nuevo','DetalleContratoController');
@@ -80,7 +84,7 @@ Route::resource('detalles/nuevo','DetalleContratoController');
 
 
 
-Route::resource('vendor/autoload.php','ContratoController'); // Revise esto hombre, por que???
+Route::resource('vendor/autoload.php','ContratoController');
 Route::auth();
 Route::get('/{slug?}', 'HomeController@index');
 

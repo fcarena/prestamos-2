@@ -126,7 +126,7 @@
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Historial de Pagos</h3>
+			<h1 style="color:#0404B4">HISTORIAL DE PAGO</h1>
 		</div>
 	</div>
 	
@@ -149,7 +149,7 @@
 						<th>{{ $filas->fecha_renovacion }}</th>
 						<th>{{ $filas->fecha_mes }}</th>
 						<th>{{ $filas->fecha_final }}</th>
-						<th>{{ $filas->created_at->format('Y-m-d') }}</th>
+						<th>{{ $filas->created_at->format('Y-M-d') }}</th>
 						<th>{{ $filas->dias }}</th>
 						<th>{{ $filas->total_interes }}</th>
 						<th>{{ $filas->total_mora }}</th>
@@ -167,7 +167,7 @@
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Pagos</h3>
+			<h1 style="color:#FF0000 ">PAGOS</h1>
 		</div>
 	</div>
 		
@@ -176,14 +176,21 @@
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<table id="detalles" class="table table-striped table-bordered table-hover dataTable">
 				<thead style="background-color: #A9D0F5">
-					<th>Pagar</th>
-					<th>Intereses</th>
-					<th>Total</th>
+					<th>PAGAR</th>
+					<th>DIAS</th>
+					<th>INTERES</th>
+					<th>INTERES X dIA</th>
+					<th>TOTAL</th>
 				</thead>
 				<tbody>
 					<th><input type="checkbox" id="check_interes"></th>
-					<th>Interes al {{ $fechas["fecha_actual"] }}</th>
-					<th>{{ number_format($total_interes, 2) }}</th>
+					<th>{{ $dias_transcurridos }}</th>
+					<th>{{ $contrato->interes }}</th>
+					<th style="color:#FF0000">{{$dias_transcurridos }} * {{ number_format( $contrato->interes/30, 2 ) }}</th>
+					
+
+
+					<th style="color:#01DF3A">{{ number_format($total_interes, 2) }}</th>
 				</tbody>
 			</table>
 		</div>
@@ -192,14 +199,16 @@
 			<table id="detalles_M"
 				class="table table-striped table-bordered table-hover dataTable">
 				<thead style="background-color: #A9D0F5">
-					<th>Pagar</th>
-					<th>Interes Mora</th>
-					<th>Total</th>
+					<th>PAGAR</th>
+					<th>DIAS</th>
+					<th>INTERES MORA</th>
+					<th>TOTAL</th>
 				</thead>
 				<tbody>
 					<th><input type="checkbox" id="check_mora"></th>
-					<th>Interes de Mora al {{ $fechas["fecha_actual"] }}</th>
-					<th>{{ number_format($total_mora, 2) }}</th>
+					<th>{{ $dias_transcurridos }}</th>
+					<th style="color:#FF0000">{{ number_format( $contrato->interes, 2) }} * 30%</th>
+					<th style="color:#01DF3A">{{ number_format($total_mora, 2) }}</th>
 				</tbody>
 			</table>
 		</div>
@@ -216,11 +225,13 @@
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="form-group">
 			
-				<div class="input-group">
-				<div class="input-group-addon">TOTAL A PAGAR</div>
-					<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ number_format(0,2) }}">
+				<div class="input-group" >
+				<div class="input-group-addon" style="font-family: Arial; font-size: 20pt;color: #00FF00 width:500px;height:85px" >TOTAL A PAGAR</div>
+					<input style="font-family: Arial; font-size: 60pt;color: #00FF00; width:450px;height:85px" type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ number_format(0,2) }}">
 					<span class="input-group-btn">
-						<button type="submit" name="btn_renovar" class="btn btn-primary" value="1">Pagar Interes/Mora</button>
+						<input type=image src="/img/portfolio/guardar.jpg" style="height:85px" name="btn_renovar"  value="1">
+						
+
 					</span>
 				</div>
 			</div>
@@ -234,10 +245,10 @@
 			<div class="form-group">
 			
 				<div class="input-group">
-				<div class="input-group-addon">TOTAL A PAGAR</div>
-					<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ $contrato->tazacion }}">
-					<span class="input-group-btn">
-						<button type="submit" name="btn_cancelar" class="btn btn-primary" value="1">Cancelar Contrato</button>
+				<div class="input-group-addon" style="font-family: Arial; font-size: 15pt;color: #00FF00 width:450px;height:85px">PAGAR CANCELADO</div>
+					<input style="font-family: Arial; font-size: 60pt; width:450px;height:86px" type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ $contrato->tazacion }}">
+					
+						<input type=image src="/img/portfolio/cancelar.jpg" style="height:85px" name="btn_cancelar"  value="1">
 					</span>
 				</div>
 			</div>

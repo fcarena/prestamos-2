@@ -34,9 +34,9 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="/home" class="logo">
+        <a href="inicio/" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>PRES</b>V</span>
+          <span class="logo-mini"><b>PRES</b></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg"><b>PRESTOCASH</b></span>
         </a>
@@ -88,7 +88,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li>
-              <a href="/home">
+              <a href="/inicio/">
                 <i class="fa fa-info-circle"></i> <span>INICIO</span>
               </a>
             </li>
@@ -145,7 +145,7 @@
               </ul>
                <ul class="treeview-menu">
                 <li class="treeview">
-              <a href="ventas">
+              <a href="/vitrina/nuevo">
                 <i class="fa fa-plus-square"></i>
                 <span>Ventas</span>
                  <i class="fa fa-angle-left pull-right"></i>
@@ -219,7 +219,7 @@
                 <div class="box-header with-border">
                    <center>
 
-                  <h1 face="arial" class="">SISTEMAS DE PRESTOCASH </h1>
+                  <h1 face="arial" class="img-fluid">SISTEMAS DE PRESTOCASH </h1>
                   <img src="/img/presto.png">
             </center>
                     <!--<h3 class="box-title">SISTEMAS DE PRESTAMOS</h3>-->

@@ -37,9 +37,13 @@ class VitrinaController extends Controller
     public function index(Request $request)
     {
 		$texto = trim($request->get('searchText'));
+
+		$fecha_actual = Carbon::now();
+
+		$dias_transcurridos = $this->calcularDias($fecha_actual, $fecha_actual);
 		$contrato = $this->contratos->getContratosxPalabrasClaves($texto);
 		
-		return view('vitrina.nuevo.index', compact('texto', 'contrato'));
+		return view('vitrina.nuevo.index', compact('texto', 'contrato','dias_transcurridos'));
     }
 
     public function edit($codigo)
@@ -87,6 +91,7 @@ class VitrinaController extends Controller
     {
 
     	$contratos_vitrinas = new ContratosVitrinas();
+
 		$contratos_vitrinas->create($request->all());
 
 		// Actualizar Estatus del Contrato
@@ -97,6 +102,7 @@ class VitrinaController extends Controller
 
     public function calcularDias($fecha_mayor, $fecha_menor) 
 	{
+		$dias_transcurridos=0;
 		if ($fecha_mayor > $fecha_menor) {
 			$dias_transcurridos = $fecha_mayor->diffInDays($fecha_menor);
 		}else $dias_transcurridos = 0;

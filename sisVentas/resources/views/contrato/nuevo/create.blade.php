@@ -4,8 +4,8 @@
 
 
 <div class="row">
-	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-		<h3>Nuevo Contrato</h3>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<center><h1>Nuevo Contrato Electro</h1></center>
 
 		@if (count($errors)>0)
 		<div class="alert alert-danger">
@@ -57,20 +57,20 @@
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			<div class="form-group">
 				<label for="fecha_inicio">Fecha de Registro</label> 
-				<input type="text" class="form-control" name="fecha_inicio" id="fecha_inicio" required value="{{ old('fecha_inicio', $now->format('Y-m-d' ))}}">
+				<input type="text" class="form-control" name="fecha_inicio" id="fecha_inicio" required value="{{old('fecha_inicio',$now->format('d - M - Y ' ))}}">
 			</div>
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			<div class="form-group">
 				<label for="fecha_mes">Fecha de Pago</label> 
-				<input type="text" class="form-control" name="fecha_mes" id="fecha_mes" value="{{ old('fecha_mes', $now->addDay(31)->format('Y-m-d'))}}">
+				<input type="text" class="form-control" name="fecha_mes" id="fecha_mes" value="{{old('fecha_mes',$now->addDay(30)->format('  d - M - Y'))}}">
 			</div>
 		</div>
 
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="form-group">
 				<label for="fecha_final">Fecha de Mora</label> 
-				<input type="text" class="form-control" name="fecha_final" id="fecha_final" value="{{ old('fecha_final', $now->addDay(5)->format('Y-m-d'))}}">
+				<input type="text" class="form-control" name="fecha_final" id="fecha_final" value="{{old('fecha_final',$now->addDay(5)->format(' d - M - Y'))}}">
 			</div>
 		</div>
 	</div>
