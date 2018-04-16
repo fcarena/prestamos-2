@@ -9,6 +9,7 @@ use sisVentas\oro;
 use sisVentas\detalleoro;
 use sisVentas\caja_egresos;
 use sisVentas\cajaIngresos;
+use sisVentas\cajaCapital;
 use sisVentas\ContratosAbonosOro;
 use sisVentas\ContratoRenovacionOro;
 use Illuminate\Support\Facades\Redirect;
@@ -84,7 +85,14 @@ class CancelarContratoOroController extends Controller
 
                     ];
 
-                    $renovacion = $this->registrarRenovacionc($request, $data);
+                   DB::transaction(function() use ($request, $data)
+                {
+                    // Registrar Cancelación de Contrato
+                    $this->registrarRenovacioncp($request, $data);
+            
+                    // Actualizar Estatus del Contrato
+                    $this->oro->where('id', $request->contratos_id)->update(['estatus' => 'PreCancelado']);
+                });
                     
                 }
             }
@@ -116,7 +124,34 @@ class CancelarContratoOroController extends Controller
     }
 
        
+public function registrarRenovacioncp($request, $data = array())
+    {
+        
+        $contratos_renovaciones = new ContratoRenovacionoro();
+        $renovacion = $contratos_renovaciones->create([
+                'contratos_codigo'  =>  $request->contratos_codigo,
+                'fecha_renovacion'  =>  $data['fecha_renovacion'],
+                'fecha_mes'         =>  $data['fecha_mes'],
+                'fecha_final'       =>  $data['fecha_final'],
+                'dias'              =>  $request->dias,
+                'total_interes'     =>  $request->total_interes,
+                'total_mora'        =>  $request->total_mora,
+                'total_pagado'      =>  $request->total_pagado,
 
+
+
+        
+        ]);
+ $caja_ingreso= new CajaIngresos;
+        $caja_ingreso->contratos_codigo=$request->get('contratos_codigo');
+        
+        $caja_ingreso->tipo_movimiento = 'Ingresos Por Oro  Cancelado';
+        $caja_ingreso->monto = $request->get('total_pagado');
+        $caja_ingreso->save();
+        
+        
+        return $renovacion;
+    }
 	
 	public function registrarRenovacionc($request, $data = array())
 	{
@@ -136,12 +171,13 @@ class CancelarContratoOroController extends Controller
 
 		
 		]);
- $caja_ingreso= new cajaIngresos;
+ $caja_ingreso= new CajaCapital;
         $caja_ingreso->contratos_codigo=$request->get('contratos_codigo');
         
-        $caja_ingreso->tipo_movimiento = 'Ingresos Por Oro y Joyas Canceladas';
+        $caja_ingreso->tipo_movimiento = 'Ingresos Por Oro  Cancelado';
         $caja_ingreso->monto = $request->get('total_pagado');
         $caja_ingreso->save();
+        
 		
 		return $renovacion;
 	}
@@ -207,7 +243,7 @@ public function editCapital($id)
         // Fecha Actual
         $fecha_actual = Carbon::now();
         
-        if ($oro->estatus != 'Cancelado') {
+        if ($oro->estatus != 'Cancelado' && $oro->estatus != 'PreCancelado') {
             if ($contratos_renovacionesoro->count() == 0) {
                 $fechas = [
 
@@ -235,10 +271,24 @@ public function editCapital($id)
             $total_interes = $this->calcularInteres($dias_transcurridos, $oro);
          
             $total_mora = $this->calcularMora($dias_transcurridos, $oro);
+
+            if ($oro->estatus == 'Activo' && $dias_transcurridos==0 ) 
+            {
+                    return view ('cancelar.oro.index', compact('oro', 'contratos_renovacionesoro', 'contratos_abonosoro', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
+            }
             
-            if ($total_interes == 0 && $total_mora == 0) {
-               
-                return view ('cancelar.oro.index', compact('oro', 'contratos_renovacionesoro', 'contratos_abonosoro', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
+            
+            if ( $oro->estatus == 'PreCancelado') 
+                { $fechas = [
+                        'fecha_actual'  => $fecha_actual->format('Y-m-d'),
+                        'fecha_inicio'  => Carbon::parse($contratos_renovacionesoro->last()->fecha_renovacion)->format('Y-m-d'),
+                        'fecha_mes'     => $contratos_renovacionesoro->last()->fecha_mes,
+                        'fecha_final'   => $contratos_renovacionesoro->last()->fecha_final
+                ];
+                $dias_transcurridos=0;
+                $total_interes=0;
+                $total_mora=0;
+                return view ('cancelar.nuevo.index', compact('contrato', 'contrato_renovacion', 'contrato_abonos', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
             }else {
               
                 return redirect("cancelar/oroc/$oro->codigo")
@@ -381,19 +431,20 @@ public function calcularDias($fecha_mayor, $fecha_menor)
     public function calcularInteres($dias, $detalles_contrato) 
     {
 
-        $total_interes = 0;
+       $total_interes = 0;
         
-     if ($dias > 0 && $dias <= 35) {
+        if ($dias > 0 && $dias <= 30) {
             $total_interes = $detalles_contrato->interes;
         }
+        if ($dias > 30 && $dias <= 35) {
+            $interes_diario = ($detalles_contrato->interes)/30;
+            $total_interes = $interes_diario * $dias;
+        }
+        
         
         if ($dias > 35 && $dias <= 65) {
-             $total_interes = ($detalles_contrato->interes);
-            
-        }
-        if ($dias>65){
-            $dias= $this->vitrina($dias);
-              
+            $interes_diario = ($detalles_contrato->interes)/ 30;
+            $total_interes = $interes_diario * $dias;
         }
         
         return $total_interes;

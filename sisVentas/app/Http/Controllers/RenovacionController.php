@@ -14,6 +14,7 @@ use sisVentas\ContratosDetalles;
 use sisVentas\ContratosAbonos;
 use DB;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class RenovacionController extends Controller
 {
@@ -337,7 +338,7 @@ class RenovacionController extends Controller
 		if ($detalles_contrato->tazacion >= $abono_capital->total_pagado){
 				
 			$tazacion = $detalles_contrato->tazacion - $abono_capital->total_pagado;
-			$interes = ($tazacion * $detalles_contrato->categorias_interes) / 100;
+			$interes = ($tazacion * $detalles_contrato->categorias_interes);
 			$subtotal = $tazacion + $interes;
 			$total = $subtotal;
 				
@@ -378,7 +379,7 @@ class RenovacionController extends Controller
 		}
 		
 		if ($dias > 35 && $dias <= 65) {
-			$interes_diario = ($detalles_contrato->interes*2);
+			$interes_diario = ($detalles_contrato->interes);
 			$total_interes = $interes_diario ;
 		}
 		
@@ -389,11 +390,11 @@ class RenovacionController extends Controller
 	{
 		$total_mora = 0;
 		
-		if ($dias > 35 && $dias <= 60) {
+		if ($dias > 35 && $dias <= 60 ) {
 			$total_mora = $detalles_contrato->interes * 0.30;
 		}
 	
-		if ($dias > 60 && $dias <= 65) {
+		if ($dias > 60 && $dias <= 65 ) {
 			$total_mora = $detalles_contrato->interes * 0.50;
 		}
 		

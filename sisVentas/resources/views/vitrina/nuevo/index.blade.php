@@ -29,7 +29,7 @@
 					<td>{{ $cat->dni }}</td>
 					<td>{{ $cat->nombre }}, {{ $cat->apellido }}</td>
 					<td>{{ $cat->fecha_inicio }}</td>
-					<td>{{ $cat->estatus }}</td>
+					<td>{{ $cat->estatus}}</td>
 					<td>
                      	<a href="{{ route("vitrina/transferir", $cat->codigo) }}" >
                      		<button class="btn btn-info">Transferir</button>

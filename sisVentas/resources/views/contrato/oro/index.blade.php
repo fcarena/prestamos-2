@@ -2,8 +2,8 @@
 @section ('contenido')
 
 <div class="row">
-	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>CONTRATOS DE ORO </h3>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<CENTER><h1 style="color:#FF8000">CONTRATOS DE ORO </h1></CENTER>
 	</div>
 	
 	@include('contrato.oro.search')
@@ -25,7 +25,6 @@
 					<th>PESO NETO</th>
 					<th>TAZACION</th>
 					<th>INTERES</th>
-					<th>TOTAL</th>
 					<th>ESTATUS</th>
 					<th>OPCIONES</th>
 				</thead>
@@ -38,7 +37,6 @@
 					<td>{{ $cat->peso_neto}}</td>
 					<td>{{ $cat->tazacion}}</td>
 					<td>{{ $cat->interes}}</td>
-					<td>{{ $cat->total}}</td>
 					<td>{{ $cat->estatus}}</td>
 					<td>
                     

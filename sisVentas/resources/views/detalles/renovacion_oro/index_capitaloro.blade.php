@@ -126,7 +126,7 @@
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Historial de Abonos</h3>
+			<h1 style="color:#0404B4">HISTORIAL ABONOS</h1>
 		</div>
 	</div>
 	
@@ -153,7 +153,7 @@
 						<th>{{ $filas->dias }}</th>
 						<th>{{ $filas->total_interes }}</th>
 						<th>{{ $filas->total_mora }}</th>
-						<th>{{ $filas->total_pagado }}</th>
+						<th style="color:#0404B4">{{ $filas->total_pagado }}</th>
 					</tbody>
 					@endforeach
 				</table>
@@ -164,7 +164,7 @@
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Abonar a Capital</h3>
+			<h1 style="color:#FF0000">ABONAR A CAPITAL</h1>
 		</div>
 	</div>
 	
@@ -182,10 +182,10 @@
 				<div class="form-group">
 				
 					<div class="input-group">
-					<div class="input-group-addon">TOTAL A PAGAR</div>
-						<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ $oro->tazacion }}">
+					<div class="input-group-addon" style="font-family: Arial; font-size: 20pt;color: #00FF00 width:500px;height:85px">TOTAL A PAGAR</div>
+						<input style="font-family: Arial; font-size: 60pt;color: #00FF00 width:500px;height:85px" type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ $oro->tazacion }}">
 						<span class="input-group-btn">
-							<button type="submit" name="btn_abonar" class="btn btn-primary" value="1">Abonar Capital</button>
+							<input type=image src="/img/portfolio/guardar.jpg" style="height:85px" name="btn_abonar"  value="1">
 						</span>
 					</div>
 				</div>

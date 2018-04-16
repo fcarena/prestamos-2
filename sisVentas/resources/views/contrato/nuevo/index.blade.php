@@ -2,8 +2,8 @@
 @section ('contenido')
 
 <div class="row">
-	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>CONTRATOS DE ELECTRO Y HERRAMIENTAS </h3>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<CENTER><h1 style="color:#FF8000">CONTRATOS DE ELECTRO Y HERRAMIENTAS </h1></CENTER>
 	</div>
 	
 	@include('contrato.nuevo.search')

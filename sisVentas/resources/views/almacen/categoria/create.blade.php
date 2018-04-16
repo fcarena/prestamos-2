@@ -3,7 +3,7 @@
 	<div class="row">
 
 		<center>	
-                  <h1>Nueva Categoría</h1></center>
+                  <h1>NUEVA CATEGORIA</h1></center>
 			@if (count($errors)>0)
 			<div class="alert alert-danger">
 				<ul>

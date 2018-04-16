@@ -4,8 +4,8 @@
     @stack('scripts')
 
 	<div class="row">
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			<h3 >Nuevo Contrato de Joyas y Oro</h3>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<center><h1 >Nuevo Contrato de Joyas y Oro</h1></center>
                  
 			@if (count($errors)>0)
 			<div class="alert alert-danger">
@@ -76,7 +76,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="form-group">
                          <label for="fecha_mes">Fecha de Pago</label>
-                         <input readonly="readonly" type="text"  class="form-control"  name="fecha_mes" id="fecha_mes" value="{{old('fecha_mes',$now->addDay(31)->format('  d - M - Y'))}}">
+                         <input readonly="readonly" type="text"  class="form-control"  name="fecha_mes" id="fecha_mes" value="{{old('fecha_mes',$now->addDay(30)->format('  d - M - Y'))}}">
                    </div>
             </div>
 

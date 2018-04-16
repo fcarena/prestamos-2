@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<center>
-			<h2>Renovacion de Contratos Electrodomestico </h2></center>
+			<h1 style="color:#FF8000">Renovacion de Contratos Electrodomestico </h1></center>
 
 			@if (count($errors)>0)
 			<div class="alert alert-danger">
@@ -46,12 +46,12 @@
 					<input type="text" name="estatus" id="estatus" class="form-control" value="{{ $contrato->estatus }}" readonly="readonly">
 				</div>
 			</div>
-		</div>
+			</div>
 			
-		<div class="row">
+			<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
-					<label for="descripcion">DESCRIPCION DEL ARTICULO</label> 
+					<label for="descripcion">NOMBRE ARTICULO</label> 
 					<input type="descripcion" name="total" id="descripcion" class="form-control" value="{{ $contrato->descripcion }}" readonly="readonly">
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
 					<label for="fecha_renovacion">Fecha Contrato</label> 
-					<div id="" class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
+					<div id="" class="input-group date" data-date="" data-date-format="yyyy-M-dd">
 						<input type="text" name="fecha_renovacion" class="form-control" value="{{ $fechas['fecha_inicio'] }}" readonly="readonly" />
 						<span class="input-group-addon add-on">
 							<span class="fa fa-calendar"></span>
@@ -87,7 +87,7 @@
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
 					<label for="fecha_mes">Fechas de Pago</label> 
-					<div id="" class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
+					<div id="" class="input-group date" data-date="" data-date-format="yyyy-M-dd">
 						<input type="text" name="fecha_mes" class="form-control" value="{{ $fechas['fecha_mes'] }}" readonly="readonly"/>
 						<span class="input-group-addon add-on">
 							<span class="fa fa-calendar"></span>
@@ -98,7 +98,7 @@
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="form-group">
 					<label for="fecha_final">Fecha de Mora</label> 
-					<div id="" class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
+					<div id="" class="input-group date" data-date="" data-date-format="yyyy-M-dd">
 						<input type="text" name="fecha_final" class="form-control" value="{{ $fechas['fecha_final'] }}" readonly="readonly"/>
 						<span class="input-group-addon add-on">
 							<span class="fa fa-calendar"></span>
@@ -126,7 +126,7 @@
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Historial de Pagos</h3>
+			<h1 style="color:#0404B4">HISTORIAL DE PAGO</h1>
 		</div>
 	</div>
 	
@@ -135,14 +135,14 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<table id="detalles" class="table table-striped table-bordered table-hover dataTable">
 					<thead style="background-color: #A9D0F5">
-						<th>F. Renovacion</th>
-						<th>F. Mes</th>
-						<th>F. Mora</th>
-						<th>F. Pago</th>
-						<th>Dias</th>
-						<th>T. Interes</th>
-						<th>T. Mora</th>
-						<th>T. Pagado</th>
+						<th>F. RENOVACION</th>
+						<th>F. MES</th>
+						<th>F. MORA</th>
+						<th>F. PAGO</th>
+						<th>DIAS</th>
+						<th>T. INTERES</th>
+						<th>T. MORA</th>
+						<th>T. PAGADO</th>
 					</thead>
 					@foreach ($contrato_renovacion as $filas)
 					<tbody>
@@ -165,7 +165,7 @@
 	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h3>Pagos</h3>
+			<h1 style="color:#FF0000">PAGOS</h1>
 		</div>
 	</div>
 		
@@ -174,14 +174,16 @@
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<table id="detalles" class="table table-striped table-bordered table-hover dataTable">
 				<thead style="background-color: #A9D0F5">
-					<th>Pagar</th>
-					<th>Intereses</th>
-					<th>Total</th>
+					<th>PAGAR</th>
+					<th>DIAS</th>
+					<th>INTERES</th>
+					<th>TOTAL</th>
 				</thead>
 				<tbody>
 					<th><input type="checkbox" id="check_interes"></th>
-					<th>Interes al {{ $fechas["fecha_actual"] }}</th>
-					<th>{{ number_format($total_interes, 2) }}</th>
+					<th>{{ $dias_transcurridos }}</th>
+					<th>{{ $contrato->interes }}</th>
+					<th style="color:#01DF3A">{{ number_format($total_interes, 2) }}</th>
 				</tbody>
 			</table>
 		</div>
@@ -190,14 +192,16 @@
 			<table id="detalles_M"
 				class="table table-striped table-bordered table-hover dataTable">
 				<thead style="background-color: #A9D0F5">
-					<th>Pagar</th>
-					<th>Interes Mora</th>
-					<th>Total</th>
+					<th>PAGAR</th>
+					<th>DIAS</th>
+					<th> MORA</th>
+					<th>TOTAL</th>
 				</thead>
 				<tbody>
 					<th><input type="checkbox" id="check_mora"></th>
-					<th>Interes de Mora al {{ $fechas["fecha_actual"] }}</th>
-					<th>{{ number_format($total_mora, 2) }}</th>
+					<th>{{ $dias_transcurridos }}</th>
+					<th style="color:#FF0000">30%</th>
+					<th style="color:#01DF3A">{{ number_format($total_mora, 2) }}</th>
 				</tbody>
 			</table>
 		</div>
@@ -217,10 +221,13 @@
 			<div class="form-group">
 			
 				<div class="input-group">
-				<div class="input-group-addon">TOTAL A PAGAR</div>
-					<input type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ number_format(0,2) }}">
+				<div class="input-group-addon" style="font-family: Arial; font-size: 20pt;color: #00FF00 width:500px;height:85px">TOTAL A PAGAR</div>
+					<input style="font-family: Arial; font-size: 60pt;color:#01DF3A; width:450px;height:85px" type="text" name="total_pagado" id="total_pagado" class="form-control" value="{{ number_format(0,2) }}">
 					<span class="input-group-btn">
-						<button type="submit" name="btn_renovar" class="btn btn-primary" value="1">Pagar Interes/Mora</button>
+						<input type=image src="/img/portfolio/guardar.jpg" style="height:85px" name="btn_renovar"  value="1">
+							 
+					 
+
 					</span>
 				</div>
 			</div>

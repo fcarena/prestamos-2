@@ -53,7 +53,6 @@ class VitrinaController extends Controller
 		return view('vitrina.nuevo.index', compact('texto', 'contrato'));
 
 
-
     }
 
     public function edit($codigo)
@@ -101,6 +100,7 @@ class VitrinaController extends Controller
     {
 
     	$contratos_vitrinas = new ContratosVitrinas();
+
 		$contratos_vitrinas->create($request->all());
 
 		// Actualizar Estatus del Contrato
@@ -111,6 +111,7 @@ class VitrinaController extends Controller
 
     public function calcularDias($fecha_mayor, $fecha_menor) 
 	{
+		$dias_transcurridos=0;
 		if ($fecha_mayor > $fecha_menor) {
 			$dias_transcurridos = $fecha_mayor->diffInDays($fecha_menor);
 		}else $dias_transcurridos = 0;
