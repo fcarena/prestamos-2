@@ -73,6 +73,8 @@ class RenovacionController extends Controller
 			
 			if ($request->btn_renovar == 1) {
 
+				dd($request);
+
 				if ($request->dias > 0 &&  $request->dias < 65) {
 					$data = [
 							'fecha_renovacion' 	=> Carbon::parse($request->fecha_renovacion)->addDays(30)->format('Y-m-d'),

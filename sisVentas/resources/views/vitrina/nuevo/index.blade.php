@@ -27,7 +27,7 @@
 					<td>{{ $cat->id }}</td>
 					<td>{{ $cat->codigo }}</td>
 					<td>{{ $cat->dni }}</td>
-					<td>{{ $cat->nombre}}</td>
+					<td>{{ $cat->nombre }}, {{ $cat->apellido }}</td>
 					<td>{{ $cat->fecha_inicio }}</td>
 					<td>{{ $cat->estatus }}</td>
 					<td>

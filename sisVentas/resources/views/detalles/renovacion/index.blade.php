@@ -203,8 +203,10 @@
 		</div>
 	</div>
 	
-	<input type="hidden" name="total_interes" id="total_interes" class="form-control" value="{{ $total_interes }}">
-	<input type="hidden" name="total_mora" id="total_mora" class="form-control" value="{{ $total_mora }}"> 
+	<input type="hidden" name="interes_calculado" id="interes_calculado" class="form-control" value="{{ $total_interes }}">
+	<input type="hidden" name="total_interes" id="total_interes" class="form-control" value="0">
+	<input type="hidden" name="mora_calculada" id="mora_calculada" class="form-control" value="{{ $total_mora }}"> 
+	<input type="hidden" name="total_mora" id="total_mora" class="form-control" value="0"> 
 	<input type="hidden" name="contratos_codigo" id="contratos_codigo" class="form-control" value="{{ $contrato->codigo }}">
 	<input type="hidden" name="contratos_id" id="contratos_id" class="form-control" value="{{ $contrato->id }}">
 	<input type="hidden" name="tiendas_id" id="tiendas_id" class="form-control" value="{{ $contrato->tiendas_id }}">
@@ -235,13 +237,17 @@ $(document).ready(function(){
 	$('#check_interes').click(function(){
 		if ($("#dias").val() > 0){
 			if ($('#check_interes').is(":checked")){
-				var total_interes = $("#total_interes").val();
-
-				$("#total_pagado").val(parseFloat(total_interes));
-			}else{
-				var total_interes = $("#total_interes").val();
+				var total_interes = $("#interes_calculado").val();
 				var total_pagado = $("#total_pagado").val();
+
+				$("#total_pagado").val(parseFloat(total_pagado) + parseFloat(total_interes));
+				$("#total_interes").val(total_interes);
+			}else{
+				var total_interes = $("#interes_calculado").val();
+				var total_pagado = $("#total_pagado").val();
+
 				$("#total_pagado").val(total_pagado - total_interes)
+				$("#total_interes").val(0);
 			}
 		}else{
 			alert("Los dias calculados deben tener un valor mayor a uno (1).");
@@ -251,15 +257,17 @@ $(document).ready(function(){
 	$('#check_mora').click(function(){
 		if ($("#dias").val() > 0){
 			if ($('#check_mora').is(":checked")){
-				var total_mora = $("#total_mora").val();
+				var total_mora = $("#mora_calculada").val();
 				var total_pagado = $("#total_pagado").val();
 	
 				$("#total_pagado").val(parseFloat(total_pagado) + parseFloat(total_mora));
+				$("#total_mora").val(total_mora);
 			}else{
-				var total_mora = $("#total_mora").val();
+				var total_mora = $("#mora_calculada").val();
 				
 				var total_pagado = $("#total_pagado").val();
 				$("#total_pagado").val(total_pagado - total_mora)
+				$("#total_mora").val(0);
 			}
 		}else{
 			alert("Los dias calculados deben tener un valor mayor a uno (1).");

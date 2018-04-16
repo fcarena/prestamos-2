@@ -37,5 +37,15 @@ class ContratosRenovaciones extends Model
 		
 		return $consulta;
 	}
+
+	public function getContratosConRenovaciones($contratos) {
+
+		dd($contratos);
+
+		$consulta = ContratosRenovaciones::where('contratos_codigo', $codigo)
+		->get();
+		
+		return $consulta;
+	}
 	
 }

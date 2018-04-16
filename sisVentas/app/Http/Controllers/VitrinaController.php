@@ -35,11 +35,25 @@ class VitrinaController extends Controller
 	}
 	
     public function index(Request $request)
-    {
+    {   
 		$texto = trim($request->get('searchText'));
-		$contrato = $this->contratos->getContratosxPalabrasClaves($texto);
+		$contrato = $this->contratos->getContratosVitrina($texto);
 		
+		// Consultar Renovaciones
+		$contrato_renovacion = $this->contratos_renovaciones->getContratosConRenovaciones($contrato);
+
+		if ($contrato_renovacion->count() > 0) {
+			// Consultar Renovaciones
+			$contrato = $this->contratos->getContratosVitrina($texto);
+		}
+	
+		// Fecha Actual
+		$fecha_actual = Carbon::now();
+
 		return view('vitrina.nuevo.index', compact('texto', 'contrato'));
+
+
+
     }
 
     public function edit($codigo)

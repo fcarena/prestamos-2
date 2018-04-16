@@ -73,5 +73,47 @@ class Contratos extends Model
     	
     	return $consulta;
     }
+
+    ###
+
+    // Obtener Contratos para vitrina
+    public function getContratosVitrina($palabra) {
+        
+        if (empty($palabra)) {
+            $consulta = Contratos::join('personas', 'personas.dni', '=', 'contratos.dni')
+            ->join ('tiendas', 'tiendas.id', '=', 'contratos.tiendas_id')
+            ->join ('categorias', 'categorias.id', '=', 'contratos.categorias_id')
+            ->where('contratos.estatus', 'Activo')
+            ->whereRaw('timestampdiff(day,contratos.fecha_inicio, CURDATE()) <= 65')
+            ->select ('personas.nombre', 'personas.apellido',
+                    'tiendas.nombre as tiendas_nombre', 
+                    'categorias.nombre as categorias_nombre',
+                    'contratos.*', \DB::raw('timestampdiff(day,contratos.fecha_inicio, CURDATE()) as dias'))
+            ->orderBy('contratos.created_at', 'desc')
+            ->paginate(10);
+            
+            return $consulta;
+        }
+        
+        $consulta = Contratos::join('personas', 'personas.dni', '=', 'contratos.dni')
+        ->join ('tiendas', 'tiendas.id', '=', 'contratos.tiendas_id')
+        ->join ('categorias', 'categorias.id', '=', 'contratos.categorias_id')
+        ->where('contratos.estatus', 'Activo')
+        ->whereRaw('timestampdiff(day,contratos.fecha_inicio, CURDATE()) >= 65')
+        ->orWhere('contratos.codigo', 'LIKE', '%'.$palabra.'%')
+        ->orWhere('contratos.dni', 'LIKE', '%'.$palabra.'%')
+        ->orWhere('contratos.fecha_inicio', 'LIKE', '%'.$palabra.'%')
+        ->orWhere('contratos.fecha_final', 'LIKE', '%'.$palabra.'%')
+        ->orWhere('tiendas.nombre', 'LIKE', '%'.$palabra.'%')
+        ->orWhere('categorias.nombre', 'LIKE', '%'.$palabra.'%')
+        ->select ('personas.nombre', 'personas.apellido',
+                    'tiendas.nombre as tiendas_nombre', 
+                    'categorias.nombre as categorias_nombre',
+                    'contratos.*', \DB::raw('timestampdiff(day,contratos.fecha_inicio, CURDATE()) as dias'))
+        ->orderBy('contratos.created_at', 'desc')
+        ->paginate(10);
+        
+        return $consulta;
+    }
     
 }
