@@ -19,16 +19,19 @@
 					<th>DNI</th>
 					<th>NOMBRE</th>
 					<th>F.CONTRATO</th>
+					<th>DIAS</th>
 					<th>ESTATUS</th>
 					<th>OPCIONES</th>
 				</thead>
+				@php $fila = 1; @endphp
 				@foreach ($contrato as $cat)
 				<tr>
-					<td>{{ $cat->id }}</td>
+					<td>{{ $fila ++ }}</td>
 					<td>{{ $cat->codigo }}</td>
 					<td>{{ $cat->dni }}</td>
 					<td>{{ $cat->nombre }}, {{ $cat->apellido }}</td>
 					<td>{{ $cat->fecha_inicio }}</td>
+					<td>{{ $cat->dias }}</td>
 					<td>{{ $cat->estatus}}</td>
 					<td>
                      	<a href="{{ route("vitrina/transferir", $cat->codigo) }}" >

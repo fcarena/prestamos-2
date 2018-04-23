@@ -14,11 +14,10 @@ use sisVentas\ContratosDetalles;
 use sisVentas\ContratosAbonos;
 use DB;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 class RenovacionController extends Controller
 {
-   protected $contratos;
+	protected $contratos;
 	protected $contratos_renovaciones;
 	protected $contratos_abonos;
 	protected $contratos_detalles;
@@ -46,7 +45,7 @@ class RenovacionController extends Controller
 		$now = Carbon::now ( 'America/Lima' );
 		
 		if ($request) {
-			$contrato = $this->contratos->getContratos()->last();
+			$contrato = $this->contratos->getContratosElectro();
 			
 			return view ( 'detalles.renovacion.index', compatc('contrato', 'now'));
 		}
@@ -69,12 +68,10 @@ class RenovacionController extends Controller
 		
 		// Consultar Contrato
 		$contrato = $this->contratos_detalles->getContatoyDetallesContrato($request->contratos_codigo)->last();
-		
+
 		if ($contrato->estatus != 'Cancelado') {
 			
 			if ($request->btn_renovar == 1) {
-
-				dd($request);
 
 				if ($request->dias > 0 &&  $request->dias < 65) {
 					$data = [
@@ -82,8 +79,20 @@ class RenovacionController extends Controller
 							'fecha_mes' 		=> Carbon::parse($request->fecha_renovacion)->addDays(60)->format('Y-m-d'),
 							'fecha_final' 		=> Carbon::parse($request->fecha_renovacion)->addDays(65)->format('Y-m-d'),
 					];
-						
-					$renovacion = $this->registrarRenovacion($request, $data);
+					
+					dd($request);
+
+					DB::transaction(function() use ($request, $data)
+					{
+						// Registrar Cancelación de Contrato
+						$this->registrarRenovacion($request, $data);
+				
+						// Actualizar Estatus del Contrato
+						$this->contratos->where('id', $request->contratos_id)->update([
+							'fecha_renovacion' => $data['fecha_renovacion']
+						]);
+
+					});
 					
 				}elseif ($request->dias == 0){
 					// Mensaje
@@ -106,7 +115,10 @@ class RenovacionController extends Controller
 					$this->registrarRenovacion($request, $data);
 			
 					// Actualizar Estatus del Contrato
-					$this->contratos->where('id', $request->contratos_id)->update(['estatus' => 'Cancelado']);
+					$this->contratos->where('id', $request->contratos_id)->update([
+						'estatus' 			=> 'Cancelado',
+						'fecha_renovacion' 	=> $data['fecha_renovacion']
+					]);
 				});
 			}
 			

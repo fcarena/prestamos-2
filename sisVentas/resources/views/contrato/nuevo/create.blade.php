@@ -57,20 +57,20 @@
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			<div class="form-group">
 				<label for="fecha_inicio">Fecha de Registro</label> 
-				<input type="text" class="form-control" name="fecha_inicio" id="fecha_inicio" required value="{{old('fecha_inicio',$now->format('d - M - Y ' ))}}">
+				<input type="text" class="form-control" name="fecha_inicio" id="fecha_inicio" required value="{{ old('fecha_inicio',$now->format('Y-m-d')) }}">
 			</div>
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			<div class="form-group">
 				<label for="fecha_mes">Fecha de Pago</label> 
-				<input type="text" class="form-control" name="fecha_mes" id="fecha_mes" value="{{old('fecha_mes',$now->addDay(30)->format('  d - M - Y'))}}">
+				<input type="text" class="form-control" name="fecha_mes" id="fecha_mes" value="{{ old('fecha_mes',$now->addDay(30)->format('Y-m-d')) }}">
 			</div>
 		</div>
 
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<div class="form-group">
 				<label for="fecha_final">Fecha de Mora</label> 
-				<input type="text" class="form-control" name="fecha_final" id="fecha_final" value="{{old('fecha_final',$now->addDay(5)->format(' d - M - Y'))}}">
+				<input type="text" class="form-control" name="fecha_final" id="fecha_final" value="{{ old('fecha_final',$now->addDay(5)->format('Y-m-d')) }}">
 			</div>
 		</div>
 	</div>
@@ -102,7 +102,7 @@
 	<div class="row">
 		<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 			<label for="codigo">C.CONTRATO</label> 
-			<input type="text" name="codigo" id="codigo" class="form-control" placeholder="Codigo...">
+			<input type="text" name="codigo" id="codigo" class="form-control" placeholder="Codigo..." value="{{ $codigo_contrato }}">
 		</div>
 
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
@@ -201,6 +201,7 @@
 	<div class="form-group">
 		<input name="_token" value="{{ csrf_token() }}" type="hidden"></input>
 		<input name="estatus" value="Activo" type="hidden"></input>
+		<input name="fecha_renovacion" id="fecha_renovacion" value="" type="hidden"></input>
 		<button class="btn btn-primary" type="submit">Guardar</button>
 		<button class="btn btn-danger" type="reset">Limpiar</button>
 	</div>
@@ -247,7 +248,11 @@ function agregar(){
 	cover=$("#cover").val();
 	tazacion=$("#tazacion").val();
 	interes=$("#interes").val();
+	fecha_inicio = $("#fecha_inicio").val();
 
+	// Asignar fecha_inicio al campo oculto fecha_renovacion
+	
+	fecha_renovacion = $("#fecha_renovacion").val(fecha_inicio);
 
 	if( descripcion!="" && modelo!="" && marca!="" && obsv!="" && tazacion!="" && cont<=0 && interes!="")
 	{
@@ -256,7 +261,7 @@ function agregar(){
 		if (cal <= 9) {
 			cal = baja;
 		}else{
-			cal = (tazacion * interes);
+			cal = (tazacion * interes / 100);
 		}
 
 		subtotal[cont] = (parseFloat(cal)+parseFloat(tazacion));

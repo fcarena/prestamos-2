@@ -5,17 +5,17 @@ namespace sisVentas\Http\Controllers;
 use Illuminate\Http\Request;
 
 use sisVentas\Http\Requests;
-use sisVentas\ContratosDetalles;
 use Illuminate\Support\Facades\Redirect;
-use sisVentas\Http\Requests\ContratoFormRequest;
+use Illuminate\Support\Facades\Auth;
 use DB;
+
 use Carbon\Carbon;
 use sisVentas\Contratos;
+use sisVentas\ContratosDetalles;
 use sisVentas\Personas;
 use sisVentas\Categorias;
 use sisVentas\Tiendas;
 use sisVentas\caja_egresos;
-use Illuminate\Database\Eloquent\Model;
 
 class ContratoController extends Controller
 {
@@ -24,7 +24,7 @@ class ContratoController extends Controller
 	public function __construct()
 	{
 		// Verificar Autenticacion del Usuario
-		//$this->middleware('auth');
+		$this->middleware('auth');
 		
 		// Modelo Contratos
 		$this->contratos = new Contratos();
@@ -35,7 +35,8 @@ class ContratoController extends Controller
     	
 		$texto = trim($request->get('searchText'));
 		
-		$contrato = $this->contratos->getContratosxPalabrasClaves($texto);
+		// Obtener Contratos
+		$contrato = $this->contratos->getContratosElectro($texto);
 		
 		return view('contrato.nuevo.index', compact('texto', 'contrato'));
     }
@@ -43,14 +44,20 @@ class ContratoController extends Controller
     public function create()
     {
         $now = Carbon::now('America/Lima');
+
+        // Usuario Autenticado
+        $usuario = Auth::User();
+
+        // Obtener codigo de contrato por tienda
+        $codigo_contrato = $this->contratos->generarCodigoxTiendas($usuario->tiendas_id);
         
         $personas = Personas::all();
         
         $categorias = Categorias::all();
         
         $tiendas = Tiendas::all();
-       
-        return view("contrato.nuevo.create", compact('now', 'personas', 'categorias', 'tiendas'));
+
+        return view("contrato.nuevo.create", compact('now', 'codigo_contrato', 'personas', 'categorias', 'tiendas'));
 
     }
 
@@ -59,6 +66,7 @@ class ContratoController extends Controller
 	 	
 	    DB::transaction(function() use ($request)
 	    {
+
 	    	$contrato = new Contratos();
 	    	$contrato_creado = $contrato->create($request->all());
 	    	

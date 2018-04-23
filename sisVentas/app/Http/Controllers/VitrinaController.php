@@ -38,21 +38,8 @@ class VitrinaController extends Controller
     {   
 		$texto = trim($request->get('searchText'));
 		$contrato = $this->contratos->getContratosVitrina($texto);
-		
-		// Consultar Renovaciones
-		$contrato_renovacion = $this->contratos_renovaciones->getContratosConRenovaciones($contrato);
-
-		if ($contrato_renovacion->count() > 0) {
-			// Consultar Renovaciones
-			$contrato = $this->contratos->getContratosVitrina($texto);
-		}
-	
-		// Fecha Actual
-		$fecha_actual = Carbon::now();
 
 		return view('vitrina.nuevo.index', compact('texto', 'contrato'));
-
-
     }
 
     public function edit($codigo)
@@ -88,10 +75,9 @@ class VitrinaController extends Controller
 	
 			$fecha_inicio = Carbon::parse($fechas['fecha_inicio']);
 		}
-	
+		
+		// Calcular dias trasncurridos
 		$dias_transcurridos = $this->calcularDias($fecha_actual, $fecha_inicio);
-		//$total_interes = $this->calcularInteres($dias_transcurridos, $contrato);
-		//$total_mora = $this->calcularMora($dias_transcurridos, $contrato);
 
 		return view('vitrina.nuevo.create', compact('contrato', 'contrato_renovacion', 'fechas', 'dias_transcurridos', 'total_interes', 'total_mora'));
     }
@@ -99,8 +85,8 @@ class VitrinaController extends Controller
     public function store(Request $request)
     {
 
+    	// Registrar contratos
     	$contratos_vitrinas = new ContratosVitrinas();
-
 		$contratos_vitrinas->create($request->all());
 
 		// Actualizar Estatus del Contrato
@@ -119,35 +105,4 @@ class VitrinaController extends Controller
 		return $dias_transcurridos;
 	}
 	
-	public function calcularInteres($dias, $detalles_contrato) 
-	{
-		
-		$total_interes = 0;
-		
-		if ($dias > 0 && $dias <= 35) {
-			$total_interes = $detalles_contrato->interes;
-		}
-		
-		if ($dias > 35 && $dias <= 65) {
-			$interes_diario = ($detalles_contrato->interes*2);
-			$total_interes = $interes_diario ;
-		}
-		
-		return $total_interes;
-	}
-	
-	public function calcularMora($dias, $detalles_contrato) 
-	{
-		$total_mora = 0;
-		
-		if ($dias > 35 && $dias <= 60) {
-			$total_mora = $detalles_contrato->interes * 0.30;
-		}
-	
-		if ($dias > 60 && $dias <= 65) {
-			$total_mora = $detalles_contrato->interes * 0.50;
-		}
-		
-		return $total_mora;
-	}
 }

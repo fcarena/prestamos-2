@@ -23,29 +23,33 @@
 					<th>DNI</th>
 					<th>NOMBRE</th>
 					<th>F.CONTRATO</th>
+					<th>DIAS</th>
 					<th>ESTATUS</th>
 					<th>OPCIONES</th>
-					
 				</thead>
-               @foreach ($contrato as $cat)
+                @php $fila = 1; @endphp
+				@foreach ($contrato as $cat)
 				<tr>
-					<td>{{ $cat->id }}</td>
+					<td>{{ $fila ++ }}</td>
 					<td>{{ $cat->codigo }}</td>
 					<td>{{ $cat->dni }}</td>
-					<td>{{ $cat->nombre}}</td>
+					<td>{{ $cat->nombre }}, {{ $cat->apellido }}</td>
 					<td>{{ $cat->fecha_inicio }}</td>
+					<td>{{ $cat->dias }}</td>
 					<td>{{ $cat->estatus }}</td>
 					<td>
-                     
-                     	<a href="{{ route("detalles_contrato/vista_oro/",$cat->id) }}" ><button class="btn btn-info">Ver</button></a>
-				
-                     <a href="{{ route("contrato/renovacion/",$cat->codigo) }}" ><button class="btn btn-warning">Renovar</button></a>
-
-                     	<a  href="{{ route("contrato/abonar/", $cat->codigo) }}"><button class="btn btn-danger">Abonar</button></a>
-                     	
-                     	<a href="{{ route("cancelar/elec/",$cat->codigo) }}" ><button class="btn btn-info">Cancelar</button></a>
-
-
+                     	<a href="{{ route("detalles_contrato/vista_oro/",$cat->id) }}" >
+                     		<button class="btn btn-info">Ver</button>
+                     	</a>
+						<a href="{{ route("contrato/renovacion/",$cat->codigo) }}" >
+							<button class="btn btn-warning" @if ($cat->estatus != 'Activo') disabled="disabled" @endif>Renovar</button>
+						</a>
+                     	<a href="{{ route("contrato/abonar/",$cat->codigo) }}">
+                     		<button class="btn btn-danger" @if ($cat->estatus != 'Activo') disabled="disabled" @endif>Abonar</button>
+                     	</a>
+                     	<a href="{{ route("cancelar/elec/",$cat->codigo) }}" >
+                     		<button class="btn btn-info" @if ($cat->estatus != 'Activo') disabled="disabled" @endif>Cancelar</button>
+                     	</a>
 					</td>
 				</tr>
 				@endforeach
